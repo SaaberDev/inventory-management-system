@@ -1,0 +1,163 @@
+
+product ✔
+    id
+    name
+    unit_id
+    category_id
+    stock_limit
+
+category ✔
+    id
+    name [raw, processing, finished]
+    timestamps
+
+purchases ✔
+    id
+    code
+    purchase_date
+    supplier_id
+    sub_total
+    total_discount
+    transport_cost
+    grand_total
+    total_paid
+    total_due
+    payment_method
+    payment_status
+    note
+    timestamps
+
+purchase_details ✔
+    id
+    purchase_id
+    product_id
+    warehouse_id
+    qty
+    unit_price
+    single_discount
+    single_total
+    timestamps
+
+damaged_items ✔
+    id
+    damage_date
+    reason
+    note
+    timestamps
+
+damage_item_details ✔
+    id
+    damage_id
+    warehouse_id
+    product_id
+    qty
+    timestamps
+
+returned_items ✔
+    id
+    supplier_id -- nullable
+    customer_id -- nullable
+    return_date
+    reason
+    note
+    timestamps
+
+returned_item_details ✔
+    id
+    return_id
+    warehouse_id
+    product_id
+    qty
+    timestamps
+
+
+transfers ✔
+    id
+    code
+    warehouse_id (from)
+    warehouse_id (to)
+    timestamps
+
+transfer_details ✔
+    id
+    category_id
+    transfer_id
+    product_id
+    qty
+    timestamps
+
+sales ✔
+    id
+    code
+    sale_date
+    customer_id
+    sub_total
+    total_discount
+    transport_cost
+    grand_total
+    total_paid
+    total_due
+    payment_method
+    payment_status
+    note
+    timestamps
+
+
+sale_details ✔
+    id
+    sale_id
+    product_id
+    warehouse_id
+    qty
+    unit_price
+    single_discount
+    single_total
+    timestamps
+
+
+###### 1 ######
+available_stocks
+    id
+    product_id
+    warehouse_id
+    qty
+
+damages_stocks
+    id
+    product_id
+    warehouse_id
+    qty
+
+used_stocks
+    id
+    product_id
+    warehouse_id
+    qty
+
+warehouses
+    id
+    name
+    shortcut
+
+###### 2 ######
+stock_type
+    id
+    type [available, damage, used]
+
+stocks
+    id - integer
+    type_id
+    product_id
+    warehouse_id
+    qty
+
+
+warehouses
+    id - int
+    name - int
+    shortcut
+
+
+1. User will be able to transfer raw materials to any warehouse (except purchase and sale)
+2. Each Transfer for raw product will affect warehouse stock
+3. Each Transfer for processing product will affect warehouse stock

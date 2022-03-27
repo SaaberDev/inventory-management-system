@@ -1,0 +1,187 @@
+@extends('layouts.app-admin')
+@section('title', 'Update Profile')
+
+@push('styles')
+    <link rel="stylesheet" href="{{ mix('_assets/plugins/select2/select2.css') }}">
+
+    <style>
+        .profile-img {
+            position: relative;
+        }
+
+        .profile-img > img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .profile-img label img {
+            position: absolute;
+            bottom: 12px;
+            right: 4px;
+            width: 45px;
+        }
+
+        .profile-img input {
+            display: none;
+        }
+    </style>
+@endpush
+
+@section('add-new-button')
+    <a type="button" href="{{ route('admin.settings.authorization.administration.index') }}" class="btn btn-info btn-sm float-sm-right">View List</a>
+@endsection
+
+@section('content')
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Update Profile</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <form class="row"
+                  action="{{ route('admin.profile.update', $user->id) }}"
+                  method="POST"
+                  autocomplete="off"
+                  enctype="multipart/form-data"
+            >
+                @csrf @method('PATCH')
+                <div class="col-sm-4">
+                    <div class="card">
+                        <div class="card-body box-profile">
+                            <div class="setting-profile-info d-flex justify-content-center">
+                                <div class="profile-img">
+                                    <img src="{{ optional($user)->getFirstMediaUrl('avatar') ? $user->getFirstMediaUrl('avatar') : asset('_assets/_default/no-preview-available.png') }}" id="profile-image" alt="dashboard" class="profile-user-img img-fluid img-circle">
+                                    <label for="profile-img">
+                                        <img src="{{ asset('_assets/_admin/images/camera.svg') }}" alt="dashboard" class="img-fluid">
+                                    </label>
+                                    <input type="file" name="avatar" id="profile-img">
+                                </div>
+                            </div>
+
+                            <p class="text-muted text-center mt-3">{{ $user->designation }}</p>
+
+                            <ul class="list-group mb-3">
+                                <li class="list-group-item">
+                                    <b>Role</b>
+                                    @foreach($user->roles as $role)
+                                        <a class="float-right badge badge-info">{{ sanitizeRole($role->name) }}</a>
+                                    @endforeach
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Username</b> <a class="float-right">{{ $user->username }}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Email</b> <a class="float-right">{{ $user->email }}</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <label for="name">Name<span class="text-danger"> *</span></label>
+                        <input type="text"
+                               name="name"
+                               value="{{ old('name', $user->name) }}"
+                               class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}"
+                               id="name"
+                               placeholder="Mahfuzur Rahman Saber"
+                        >
+                        @if($errors->has('name'))
+                            <span class="invalid-feedback">
+                                <strong>{{ $errors->first('name') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Old Password<span class="text-danger"> *</span></label>
+                        <div class="input-group" id="show_hide_password">
+                            <input type="password"
+                                   name="old_password"
+                                   value="{{ old('old_password') }}"
+                                   class="form-control {{ $errors->has('old_password') ? ' is-invalid' : '' }}"
+                                   id="old_password"
+                                   placeholder="Type Password"
+                            >
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <a href="">
+                                        <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            @if($errors->has('old_password'))
+                                <span class="invalid-feedback">
+                                <strong>{{ $errors->first('old_password') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">New Password<span class="text-danger"> *</span></label>
+                        <div class="input-group" id="show_hide_password">
+                            <input type="password"
+                                   name="password"
+                                   class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                   id="password"
+                                   placeholder="Type Password"
+                            >
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <a href="">
+                                        <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            @if($errors->has('password'))
+                                <span class="invalid-feedback">
+                                    <strong>{{ $errors->first('password') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password_confirmation">Confirm Password<span class="text-danger"> *</span></label>
+                        <div class="input-group" id="show_hide_password">
+                            <input type="password"
+                                   name="password_confirmation"
+                                   class="form-control"
+                                   id="password_confirmation"
+                                   placeholder="Re-type Password"
+                            >
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <a href="">
+                                        <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-info btn-sm float-right">Submit</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.card-body -->
+    </div>
+@endsection
+
+@push('scripts')
+    <script src="{{ mix('_assets/plugins/select2/select2.js') }}"></script>
+    <script>
+        //Profile Image preview
+        const profileImg = document.getElementById("profile-img");
+        profileImg.addEventListener("change", (event) => {
+            var image = document.getElementById('profile-image');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        });
+    </script>
+@endpush
