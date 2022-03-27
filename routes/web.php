@@ -39,8 +39,8 @@ use App\Http\Controllers\Admin\Settings\Authorization\AdministrationController;
     Route::get('print_me_sale/{code}', [PDFController::class, 'print_to_pdf_sale'])->name('pdfSale'); // TODO -- Need Refactor
 
 
-    Route::get('test', function () {
-        //
+    Route::get('/', function () {
+        return redirect()->route('admin.dashboard.index');
     });
 
 
