@@ -4,7 +4,8 @@
 
 ## TODO
 * jquery fix in purchase and transfer edit ✅
-* Add warehouse stock
+* CMS
+* Add each warehouse stock limit
 * add a chart each inventory
 * add profit and loss chart
 * show attachment in purchase and sale single view
