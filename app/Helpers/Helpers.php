@@ -76,3 +76,68 @@
         }
         \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
+
+    /**
+     * @function for displaying image
+     */
+    if (!function_exists('showImage')) {
+        /**
+         * @spatie_media_library
+         * This function will check if image exist on database or filesystem. If any one of them missing it will show a default image.
+         * @param $model                | Pass model instance
+         * @param $collectionName       | collection name
+         * @param string $type          | single or multiple
+         * @return string image url
+         */
+        function showImage($model, $collectionName, string $type = 'single')
+        {
+            if ($type === 'multiple') {
+                $filePath = pathinfo($model->getPath(), PATHINFO_DIRNAME);
+                $fileName = $model->file_name;
+                $exists = checkIfDirectoryExists($filePath, $fileName);
+
+                if (!$exists) {
+                    return asset(config('dropzone.image.no_preview'));
+                } else {
+                    return asset(optional($model)->collection_name == $collectionName ? $model->getFullUrl() : config('dropzone.image.no_preview'));
+                }
+            } else {
+                $fileName = optional($model)->getFirstMedia($collectionName) ? $model->getFirstMedia($collectionName)->file_name : null;
+                $filePath = pathinfo($model->getFirstMediaPath($collectionName), PATHINFO_DIRNAME);
+                $exists = checkIfDirectoryExists($filePath, $fileName);
+
+                if (!$exists) {
+                    return asset(config('dropzone.image.no_preview'));
+                } else {
+                    return asset(optional($model)->getFirstMedia($collectionName) ? $model->getFirstMediaUrl($collectionName) : config('dropzone.image.no_preview'));
+                }
+            }
+        }
+    }
+
+    if (!function_exists('checkIfDirectoryExists')) {
+        /**
+         * @param $filePath
+         * @param $fileName
+         * @return bool
+         */
+        function checkIfDirectoryExists($filePath, $fileName)
+        {
+            $explode = explode('/', $filePath);
+            $getLast = last($explode);
+            return Storage::exists($getLast . '/' . $fileName);
+        }
+    }
+
+    if (!function_exists('showAltText')) {
+        /**
+         * @param $model
+         * @param $collectionName
+         * @param $altText
+         * @return \Illuminate\Config\Repository|\Illuminate\Contracts\Foundation\Application|mixed
+         */
+        function showAltText($model, $collectionName, $altText)
+        {
+            return optional($model)->getFirstMedia($collectionName) ? $altText : config('dropzone.image.alt');
+        }
+    }

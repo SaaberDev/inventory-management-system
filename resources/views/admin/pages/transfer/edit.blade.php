@@ -130,21 +130,22 @@
                         </div>
 
                         <div class="col-sm-3 form-group">
-                            <label for="stock-1" class="col-form-label">Stock</label>
-                            <input type="text" class="form-control" id="stock-1" name="stock" value="{{ $transfer_detail->stock . ' ' . $transfer_detail->unit_shortcut }}" disabled>
+                            <label for="stock-{{ $loop->iteration }}" class="col-form-label">Stock</label>
+                            <input type="text" class="form-control" id="stock-{{ $loop->iteration }}" name="stock" value="{{ $transfer_detail->stock . ' ' . $transfer_detail->unit_shortcut }}" disabled>
                         </div>
 
                         <div class="col-sm-3 form-group">
-                            <label for="qunatities" class="col-form-label">Quantity<span class="text-danger"> *</span></label>
+                            <label for="qunatities-{{ $loop->iteration }}" class="col-form-label">Quantity<span class="text-danger"> *</span></label>
                             <input type="number"
                                    step="any"
                                    min="0"
-                                   id="qunatities-1"
-                                   data-number="1"
+                                   id="qunatities-{{ $loop->iteration }}"
+                                   data-number="{{ $loop->iteration }}"
                                    name="quantities[]"
+                                   data-old="{{ $transfer_detail->qty }}"
                                    value="{{ old('quantities', $transfer_detail->qty) }}"
                                    placeholder="Quantity"
-                                   class="form-control"
+                                   class="form-control edit-calculator"
                                    required
                             >
                         </div>
@@ -185,26 +186,26 @@
 @push('scripts')
     <script src="{{ mix('_assets/plugins/select2/select2.js') }}"></script>
     <script src="{{ mix('_assets/plugins/flatpickr/flatpickr.js') }}"></script>
-    {{--    <script src="{{ mix('_assets/plugins/dynamic_field/dynamic-field-transfer.js') }}"></script>--}}
+    <script src="{{ mix('_assets/plugins/dynamic_field/dynamic-field-transfer.js') }}"></script>
 
-    <script>
-        $(document).ready(function () {
-            $('#transfer_from').prop('disabled', true);
-            // $('#transfer_to').prop('disabled', true);
-            // $('.product-select').prop('disabled', true);
-        });
-        $(document).ready(function(){
-            $("#qunatities-1").blur(function(){
-                var quantity = $('#qunatities-1').val();
-                var stock = $('#stock-1').val();
-                if( stock < quantity){
-                    alert("Quantity should be less or Equal than Stock.");
-                    $('#qunatities-1').val('');
-                }
+{{--    <script>--}}
+{{--        $(document).ready(function () {--}}
+{{--            $('#transfer_from').prop('disabled', true);--}}
+{{--            // $('#transfer_to').prop('disabled', true);--}}
+{{--            // $('.product-select').prop('disabled', true);--}}
+{{--        });--}}
+{{--        $(document).ready(function(){--}}
+{{--            $("#qunatities-1").blur(function(){--}}
+{{--                var quantity = $('#qunatities-1').val();--}}
+{{--                var stock = $('#stock-1').val();--}}
+{{--                if( stock < quantity){--}}
+{{--                    alert("Quantity should be less or Equal than Stock.");--}}
+{{--                    $('#qunatities-1').val('');--}}
+{{--                }--}}
 
-            });
-        });
-    </script>
+{{--            });--}}
+{{--        });--}}
+{{--    </script>--}}
 
     <script>
         // flatpickr

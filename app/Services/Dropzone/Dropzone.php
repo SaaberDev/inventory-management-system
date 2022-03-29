@@ -3,12 +3,14 @@
 
     namespace App\Services\Dropzone;
 
-
     use Illuminate\Http\JsonResponse;
     use Illuminate\Http\Request;
+    use Storage;
+    use function response;
 
     class Dropzone
     {
+        protected $mimes = null;
         private Request $request;
 
         public function __construct(Request $request)
@@ -27,14 +29,17 @@
             $models = $model::findOrFail($this->request->get($param));
             $medias = $models->getMedia($mediaKey);
 
-            return \response()->json($medias);
+            return response()->json($medias);
         }
 
         /**
+         * @param null $mimes
          * @return JsonResponse
          */
-        public function storeMedia(): JsonResponse
+        public function storeMedia($mimes = null): JsonResponse
         {
+            $this->validate($mimes);
+
             $path = storage_path('tmp/uploads');
 
             if (!file_exists($path)) {
@@ -43,13 +48,27 @@
 
             $file = $this->request->file('file');
 
-            $name = trim($file->getClientOriginalName());
+            $name = trim(md5(now()) . '-' . $file->getClientOriginalName());
 
             $file->move($path, $name);
 
             return response()->json([
-                'name'          => $name,
+                'name' => $name,
                 'original_name' => $file->getClientOriginalName(),
+            ]);
+        }
+
+        /**
+         * @param $mimes
+         */
+        private function validate($mimes)
+        {
+            !is_array($mimes)
+                ? $this->mimes = !is_null($mimes) ? "|mimes:{$mimes}" : ''
+                : $this->mimes = !empty($mimes) ? "|mimes:" . implode(',', $mimes) : '';
+
+            $this->request->validate([
+                'file' => "image" . $this->mimes
             ]);
         }
 
@@ -66,8 +85,8 @@
             $id = $this->request->get($mediaId);
 
             if (!$id) {
-                if (\Storage::disk('tmp')->exists('uploads/' . $file)) {
-                    \Storage::disk('tmp')->delete('uploads/' . $file);
+                if (Storage::disk('tmp')->exists('uploads/' . $file)) {
+                    Storage::disk('tmp')->delete('uploads/' . $file);
                 }
             } else {
                 if ($library === 'spatie') {
@@ -77,6 +96,10 @@
                 }
             }
 
-            return response()->json();
+            return response()->json([
+                'status' => 'success',
+                'file' => $file,
+                'message' => 'File has been removed.'
+            ]);
         }
     }

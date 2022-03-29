@@ -38,6 +38,21 @@
          * @param $mediaCollection
          * @param string $disk
          */
+        public function uploadMultipleMediaAjax($model, $inputKey, $mediaCollection, string $disk = 'public')
+        {
+            \DB::afterCommit(function () use ($model, $inputKey, $mediaCollection, $disk){
+                foreach ($inputKey as $file) {
+                    $model->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection($mediaCollection, $disk);
+                }
+            });
+        }
+
+        /**
+         * @param $model
+         * @param $inputKey
+         * @param $mediaCollection
+         * @param string $disk
+         */
         public function uploadSingleMedia($model, $inputKey, $mediaCollection, string $disk = 'public')
         {
             \DB::afterCommit(function () use ($model, $inputKey, $mediaCollection, $disk){

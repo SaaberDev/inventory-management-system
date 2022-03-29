@@ -331,7 +331,7 @@ class PurchaseController extends Controller
      */
     public function storeMedia(Dropzone $dropzone): JsonResponse
     {
-        return $dropzone->storeMedia();
+        return $dropzone->storeMedia(['jpg', 'png']);
     }
 
     /**

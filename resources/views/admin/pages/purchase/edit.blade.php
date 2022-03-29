@@ -186,6 +186,7 @@
                                            min="1"
                                            id="qunatities-{{ $loop->iteration }}"
                                            data-number="{{ $loop->iteration }}"
+                                           data-old="{{ $purchase_detail->qty }}"
                                            name="quantities[]"
                                            value="{{ old('quantities.' . $loop->index, $purchase_detail->qty) }}"
                                            placeholder="Quantity"
@@ -429,8 +430,9 @@
     <script src="{{ mix('_assets/plugins/flatpickr/flatpickr.js') }}"></script>
     <script src="{{ mix('_assets/plugins/dynamic_field/dynamic-field-purchase.js') }}"></script>
     <script src="{{ mix('_assets/plugins/dropzone/js/dropzone.js') }}"></script>
+
     @include('plugins.dropzone.edit.multiple', [
-        'dropzone' => Str::camel('multiple-media-dropzone'), // dropzone div id
+        'dropzone' => Str::camel('multiple-media-dropzone'),
         'getRequestParam' => 'purchase',
         'fileInputName' => 'multiple_media',
         'get' => route('admin.purchase.self.getMedia'),
@@ -438,6 +440,7 @@
         'delete' => route('admin.purchase.self.deleteMedia'),
         'model' => $purchase, // your model name for query
         'maxFilesize' => 2,
+        'maxFiles' => 6,
         'acceptedFiles' => 'image/jpeg, image/png',
     ])
 
