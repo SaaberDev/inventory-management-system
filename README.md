@@ -19,13 +19,17 @@
 * attendance system [fingerprint if possible]
 
 
-Workflow
+## Workflow
 
 .
-|
-|- Purchase
-|---- Transfer to warehouse
-|-------- Release from warehouse as released product / finished product
-|------------ Transfer released product to another warehouse or directly to the finished goods (finished goods are sellable)
-|---------------- Sell both released product and finished product when it is available in finished goods
+├── Purchase
+│   └── Store in purchase warehouse
+├── Transfer
+│   └── Transfer to any warehouse
+├── Release Products
+│   ├── Release from warehouse as released product / finished product
+│   └── Transfer
+│       └── Transfer released product to another warehouse or directly to the finished goods (finished goods are sellable)
+└── Sell  
+└── Sell both released product and finished product when it is available in finished goods
 
