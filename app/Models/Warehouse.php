@@ -13,16 +13,7 @@ class Warehouse extends Model
     use HasFactory;
 
     const PURCHASE = '1';
-    const SALE = '2';
-
-
-
-//    const PURCHASE = '7';
-//    const CUTTING = '7';
-//    const SWING = '7';
-//    const PUUNIT = '7';
-//    const CDC = '7';
-//    const SALE = '7';
+    const FINISHED = '2';
 
     /*
     |--------------------------------------------------------------------------

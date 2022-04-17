@@ -28,8 +28,11 @@
             $oldRecord = $model::where($attribute, 'LIKE', '%'.$this->prefix.'%')->get();
             if (count($oldRecord) > 0) {
                 $max = $oldRecord->max($attribute);
+//                dd($max);
                 $serialNumber = str_replace($this->prefix, '', $max);
+//                dd($serialNumber);
                 $this->code = $this->prefix . str_pad(($serialNumber + 1), 5, '0', STR_PAD_LEFT);
+//                dd($this->code );
             } else {
                 $newRecord = $model::where($attribute, 'LIKE', '%'.$this->prefix.'%')->get();
                 $this->code = $this->prefix . str_pad(($newRecord->count() + 1), 5, '0', STR_PAD_LEFT);

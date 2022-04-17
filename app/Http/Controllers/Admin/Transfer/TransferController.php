@@ -76,7 +76,7 @@
             $warehouses = Warehouse::orderBy('position')->get();
             $from_warehouses = $warehouses->sortByDesc(function ($item) {
                 return $item['id'] == 1;
-            })->except(Warehouse::SALE)->pluck('name', 'id');
+            })->except(Warehouse::FINISHED)->pluck('name', 'id');
             $to_warehouses = $warehouses->sortBy(function ($item) {
                 return $item['id'] == 2;
             })->except(Warehouse::PURCHASE)->pluck('name', 'id');
@@ -253,6 +253,7 @@
          *
          * @param int $id
          * @return JsonResponse
+         * @throws Throwable
          */
         public function destroy($id)
         {
@@ -283,7 +284,7 @@
             $products_by_warehouse = Warehouse::findOrFail($request->get('id'));
             $stocks = $products_by_warehouse->stocks()
                 ->where('qty', '!=', 0)
-                ->where('product_type_id', '=', 1)->get();
+                ->get();
 
             $data = [];
             foreach ($stocks as $stock) {

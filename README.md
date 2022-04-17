@@ -4,6 +4,10 @@
 
 ## TODO
 * jquery fix in purchase and transfer edit ✅
+* transfer released goods ✅
+* sell released and finished goods
+* track inventory
+* track transfer
 * CMS
 * Add each warehouse stock limit
 * add a chart each inventory
@@ -13,3 +17,15 @@
 * custom invoice system for budgeting
 * payroll system
 * attendance system [fingerprint if possible]
+
+
+Workflow
+
+.
+|
+|- Purchase
+|---- Transfer to warehouse
+|-------- Release from warehouse as released product / finished product
+|------------ Transfer released product to another warehouse or directly to the finished goods (finished goods are sellable)
+|---------------- Sell both released product and finished product when it is available in finished goods
+

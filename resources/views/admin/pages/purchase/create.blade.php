@@ -420,6 +420,7 @@
         'store' => route('admin.purchase.self.storeMedia'),
         'delete' => route('admin.purchase.self.deleteMedia'),
         'maxFilesize' => 2,
+        'maxFiles' => 10,
         'acceptedFiles' => 'image/jpeg, image/png',
     ])
 

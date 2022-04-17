@@ -26,7 +26,7 @@
                 </li>
 
                 <li>
-                    <a href="{{ route('admin.stock.index', ['id' => \App\Models\Warehouse::SALE, 'name' => sanitizeQueryParamToUrl('sale')]) }}" class="dropdown-item">
+                    <a href="{{ route('admin.stock.index', ['id' => \App\Models\Warehouse::FINISHED, 'name' => sanitizeQueryParamToUrl('sale')]) }}" class="dropdown-item">
                         <i class="nav-icon fas fa-shopping-bag mr-2" style="margin-left: 6px;"></i>
                         Sale
                     </a>

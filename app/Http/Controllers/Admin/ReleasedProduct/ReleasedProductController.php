@@ -88,7 +88,7 @@
             $warehouses = Warehouse::orderBy('position')->get();
             $released_from = $warehouses->sortBy(function ($item) {
                 return $item['id'] == 2;
-            })->except(Warehouse::PURCHASE)->pluck('name', 'id');
+            })->except([Warehouse::PURCHASE, Warehouse::FINISHED])->pluck('name', 'id');
             $product_types = ProductType::pluck('name', 'id')->except(ProductType::RAW);
 
             return view('admin.pages.release-product.create', compact('released_from', 'product_types'));

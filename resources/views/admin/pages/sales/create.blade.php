@@ -164,13 +164,11 @@
                                 required
                         >
                             <option></option>
-                            <optgroup label="{{ $product_type->name }}">
-                                @foreach($product_type->products as $product)
-                                    <option value="{{ $product->id }}">
-                                        {{ '>' . ' ' . $product->name }}
-                                    </option>
-                                @endforeach
-                            </optgroup>
+                            @foreach($product_type->products as $product)
+                                <option value="{{ $product->id }}">
+                                    {{ '>' . ' ' . $product->name }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -407,6 +405,7 @@
         'store' => '',
         'delete' => '',
         'maxFilesize' => 2,
+        'maxFiles' => 10,
         'acceptedFiles' => 'image/jpeg, image/png',
     ])
 

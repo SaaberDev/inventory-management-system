@@ -59,8 +59,11 @@
         public function create()
         {
             $client = Client::all();
-            $product_type = ProductType::with('products')
-                ->findOrFail(ProductType::FIN);
+            $product_type = ProductType::with(['products' => function ($query) {
+                $query->whereHas('stocks', function ($query) {
+                    $query->where('qty', '!=', 0);
+                });
+            }])->findOrFail(ProductType::FIN);
             return view('admin.pages.sales.create', compact('product_type','client'));
         }
 
@@ -77,7 +80,7 @@
         {
             DB::beginTransaction();
             try {
-                $warehouse = Warehouse::findOrFail(Warehouse::SALE);
+                $warehouse = Warehouse::findOrFail(Warehouse::FINISHED);
                 $sales = Sale::create([
                     'code' => $codeGenerator->reference(Sale::class, $warehouse->shortcut, 'code'),
                     'sale_date' => $request->input('sales_date'),
@@ -183,7 +186,7 @@
             foreach ($sale->salesDetails as $sales_details) {
                 $stocks = $sales_details->products->stocks()
                     ->where('product_id', '=', $sales_details->product_id)
-                    ->where('warehouse_id', '=', Warehouse::SALE)
+                    ->where('warehouse_id', '=', Warehouse::FINISHED)
                     ->get();
 
                 foreach ($stocks as $stock) {
@@ -215,7 +218,7 @@
         {
             DB::beginTransaction();
             try {
-                $warehouse = Warehouse::findOrFail(Warehouse::SALE);
+                $warehouse = Warehouse::findOrFail(Warehouse::FINISHED);
                 $sale = Sale::findOrFail($id);
                 foreach ($sale->salesDetails as $old_sale_detail) {
                     Stock::where('product_id', '=', $old_sale_detail->product_id)
@@ -285,7 +288,7 @@
             try {
                 $sale = Sale::findOrFail($id);
                 $product_id=SaleDetail::where('sale_id',$id)->get();
-                $warehouse = Warehouse::findOrFail(Warehouse::SALE);
+                $warehouse = Warehouse::findOrFail(Warehouse::FINISHED);
                 foreach ($product_id as $product ){
                     Stock::where('product_id', $product->id)
                         ->where('warehouse_id', $warehouse->id)
@@ -346,7 +349,7 @@
         public function getStock(Request $request)
         {
             $product = Product::findOrFail($request->get('id'));
-            $stock_by_purchase_warehouse = $product->stocks()->where('warehouse_id', '=', Warehouse::SALE)->get();
+            $stock_by_purchase_warehouse = $product->stocks()->where('warehouse_id', '=', Warehouse::FINISHED)->get();
             $qty = [];
             foreach ($stock_by_purchase_warehouse as $stock) {
                 $qty = $stock->pivot->qty;

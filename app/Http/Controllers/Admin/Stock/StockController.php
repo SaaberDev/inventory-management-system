@@ -55,9 +55,9 @@
                     ->get();
 
                 $stock_details = self::getStockByProductType($stocks, ProductType::RAW);
-            } elseif ($request->route('id') == Warehouse::SALE) {
+            } elseif ($request->route('id') == Warehouse::FINISHED) {
                 $stocks = Stock::where('qty', '!=', 0)
-                    ->where('warehouse_id', '=', Warehouse::SALE)
+                    ->where('warehouse_id', '=', Warehouse::FINISHED)
                     ->get();
 
                 $stock_details = self::getStockByProductType($stocks, ProductType::FIN);
