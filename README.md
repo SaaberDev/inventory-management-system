@@ -19,7 +19,7 @@
 * attendance system [fingerprint if possible]
 
 
-## Workflow
+## Purchase to Sale Workflow
 
 ```
 .
@@ -33,7 +33,7 @@
 │       ├── Transfer released product to another warehouse
 │       └── Transfer directly to the finished goods (finished goods are sellable)
 └── Sell  
-└── Sell both released product and finished product when it is available in finished goods
+    └── Sell both released product and finished product when it is available in finished goods
 ```
 
 
