@@ -21,6 +21,7 @@
 
 ## Workflow
 
+```
 .
 ├── Purchase
 │   └── Store in purchase warehouse
@@ -33,18 +34,6 @@
 │       └── Transfer directly to the finished goods (finished goods are sellable)
 └── Sell  
 └── Sell both released product and finished product when it is available in finished goods
+```
 
-
-my-app/
-├─ node_modules/
-├─ public/
-│  ├─ favicon.ico
-│  ├─ index.html
-│  ├─ robots.txt
-├─ src/
-│  ├─ index.css
-│  ├─ index.js
-├─ .gitignore
-├─ package.json
-├─ README.md
 
