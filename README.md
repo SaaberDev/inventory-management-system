@@ -30,10 +30,11 @@
 ├── Release Products
 │   ├── Release from warehouse as released product / finished product
 │   └── Transfer
-│       ├── Transfer released product to another warehouse
-│       └── Transfer directly to the finished goods (finished goods are sellable)
-└── Sell  
-    └── Sell both released product and finished product when it is available in finished goods
+│       ├── Transfer released product to any relevent warehouse
+│       └── Transfer finished product to any relevent warehouse
+│       └── Transfer both released product and finished product to finished goods warehouse to sell (because user can sell both type of product)
+└── Sell
+    └── Sell both released product and finished product when it is available in finished goods warehouse
 ```
 
 
