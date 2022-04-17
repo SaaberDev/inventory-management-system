@@ -25,11 +25,11 @@
 ├── Purchase
 │   └── Store in purchase warehouse
 ├── Transfer
-│   └── Transfer to any warehouse
+│   └── Transfer purchased products from purchase warehouse to any warehouse
 ├── Release Products
 │   ├── Release from warehouse as released product / finished product
 │   └── Transfer
-│       └── Transfer released product to another warehouse or directly to the finished goods (finished goods are sellable)
+│       ├── Transfer released product to another warehouse
+│       └── Transfer directly to the finished goods (finished goods are sellable)
 └── Sell  
 └── Sell both released product and finished product when it is available in finished goods
-
