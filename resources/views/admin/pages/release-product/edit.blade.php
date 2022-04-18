@@ -362,7 +362,7 @@
                     $.ajax({
                         type: "GET",
                         dataType : 'json',
-                        url: '/api/dashboard/products',
+                        url: '/api/dashboard/released-products',
                         data: {
                             query: product_type
                         }
@@ -421,7 +421,7 @@
                 $.ajax({
                     type: "GET",
                     dataType : 'json',
-                    url: '/api/dashboard/products/get-stock',
+                    url: '/api/dashboard/released-products/get-stock',
                     data: {
                         product_id: product_id,
                         warehouse_id: warehouse_id

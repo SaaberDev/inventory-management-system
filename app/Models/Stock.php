@@ -40,14 +40,19 @@ class Stock extends Pivot
     |--------------------------------------------------------------------------
     */
 
-    public function warehouses()
-    {
-        return $this->belongsTo(Warehouse::class, 'warehouse_id');
-    }
+//    public function warehouses()
+//    {
+//        return $this->belongsTo(Warehouse::class, 'warehouse_id');
+//    }
+//
+//    public function products()
+//    {
+//        return $this->belongsTo(Product::class, 'product_id');
+//    }
 
-    public function products()
+    public function productType()
     {
-        return $this->belongsTo(Product::class, 'product_id');
+        return $this->belongsTo(Product::class, 'product_type_id');
     }
 
     /*

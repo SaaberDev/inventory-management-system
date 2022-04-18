@@ -20,7 +20,7 @@
                 $.ajax({
                     type: "GET",
                     dataType : 'json',
-                    url: '/api/dashboard/products/get-products-by-warehouse',
+                    url: '/api/dashboard/released-products/get-products-by-warehouse',
                     data: {
                         id: released_from
                     }
@@ -50,7 +50,7 @@
                                 $.ajax({
                                     type: "GET",
                                     dataType : 'json',
-                                    url: '/api/dashboard/products/get-stock',
+                                    url: '/api/dashboard/released-products/get-stock',
                                     data: {
                                         product_id: product_id,
                                         warehouse_id: warehouse_id

@@ -324,9 +324,14 @@
         public function getProductsByWarehouse(Request $request)
         {
             $products_by_warehouse = Warehouse::findOrFail($request->get('id'));
+            $released_products = ReleasedProduct::where('from_warehouse_id', '=', $request->get('id'))->distinct()->pluck('product_id')->toArray();
+
             $stocks = $products_by_warehouse->stocks()
                 ->where('qty', '!=', 0)
-                ->where('product_type_id', '=', 1)->get();
+                ->whereIn('product_type_id', [ProductType::RAW, ProductType::REL])
+                // if released product warehouse_id is equals to released_from do not display
+                ->whereNotIn('product_id', $released_products)
+                ->get();
 
             $data = [];
             foreach ($stocks as $stock) {
@@ -347,7 +352,13 @@
         public function getProducts(Request $request)
         {
             if ($request->get('query') == ProductType::REL) {
-                $released_products = Product::where('product_type_id', '=', ProductType::REL)->select(['id', 'name', 'code'])->get();
+                // get released product_id
+                $get_released_product_ids = ReleasedProduct::distinct()->pluck('product_id')->toArray();
+                $released_products = Product::where('product_type_id', '=', ProductType::REL)
+                    // if product is already released do not display them
+                    ->whereNotIn('id', $get_released_product_ids)
+                    ->select(['id', 'name', 'code'])
+                    ->get();
                 return \response()->json($released_products);
             } elseif ($request->get('query') == ProductType::FIN) {
                 $released_products = Product::where('product_type_id', '=', ProductType::FIN)->select(['id', 'name', 'code'])->get();

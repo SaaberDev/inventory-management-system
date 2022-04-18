@@ -45,8 +45,8 @@ use App\Http\Controllers\Admin\Settings\Authorization\AdministrationController;
 
 
     Route::prefix('api')->middleware([
-        'auth',
-        'role:super_admin|admin|manager',
+//        'auth',
+//        'role:super_admin|admin|manager',
     ])->group(function () {
         Route::prefix('dashboard')->name('admin.')->group(function () {
             Route::prefix('purchase')->group(function () {
@@ -60,7 +60,7 @@ use App\Http\Controllers\Admin\Settings\Authorization\AdministrationController;
                 Route::get('/get-stock', [TransferController::class, 'getStock'])->name('getStock');
             });
 
-            Route::prefix('products')->name('products.')->group(function () {
+            Route::prefix('released-products')->name('products.')->group(function () {
                 Route::get('/', [ReleasedProductController::class, 'getProducts'])->name('getProducts');
                 Route::get('/get-products-by-warehouse', [ReleasedProductController::class, 'getProductsByWarehouse'])->name('getProductsByWarehouse');
                 Route::get('/get-stock', [ReleasedProductController::class, 'getStock'])->name('getStock');

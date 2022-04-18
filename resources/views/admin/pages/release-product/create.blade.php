@@ -254,7 +254,7 @@
                     $.ajax({
                         type: "GET",
                         dataType : 'json',
-                        url: '/api/dashboard/transfer/get-products-by-warehouse',
+                        url: '/api/dashboard/released-products/get-products-by-warehouse',
                         data: {
                             id: released_from
                         }
@@ -314,7 +314,7 @@
                     $.ajax({
                         type: "GET",
                         dataType : 'json',
-                        url: '/api/dashboard/products',
+                        url: '/api/dashboard/released-products',
                         data: {
                             query: product_type
                         }
@@ -373,7 +373,7 @@
                 $.ajax({
                     type: "GET",
                     dataType : 'json',
-                    url: '/api/dashboard/products/get-stock',
+                    url: '/api/dashboard/released-products/get-stock',
                     data: {
                         product_id: product_id,
                         warehouse_id: warehouse_id
