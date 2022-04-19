@@ -148,7 +148,7 @@
                     text:"Quantity should be greater than Zero.",
                     icon: "warning",
                 })
-                $("#qunatities-"+id).val($("#qunatities-"+id).data('old'));
+                $("#qunatities-"+id).val('');
             }
 
             if(items.length == 0)

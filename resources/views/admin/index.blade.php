@@ -8,6 +8,87 @@
     <div class="container-fluid">
         @role('admin')
         <div class="row">
+            <div class="col-md-3">
+                <div class="info-box shadow-sm">
+                    <span class="info-box-icon bg-success"><i class="fas fa-barcode"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Products</span>
+                        <span class="info-box-number">{{ $totalProducts }}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="info-box shadow-sm">
+                    <span class="info-box-icon bg-success"><i class="fas fa-chart-line"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Profit</span>
+                        <span class="info-box-number">{{$pofid}} BDT</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="info-box shadow-sm">
+                    <span class="info-box-icon bg-warning"><i class="fas fa-money-check"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Expense</span>
+                        <span class="info-box-number">{{$totalExpense}} BDT</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="info-box shadow-sm">
+                    <span class="info-box-icon bg-danger"><i class="fas fa-chart-area"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Loss</span>
+                        <span class="info-box-number">{{$lose}} BDT</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card shadow-sm">
+                    <div class="card-header border-0">
+                        <h3 class="card-title">Monthly Total Sale and Purchase (By Amount)</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
+                            <canvas id="sale_and_purchase_by_amount" width="400" height="350"></canvas>
+                        </div>
+                        <!-- /.d-flex -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card shadow-sm">
+                    <div class="card-header border-0">
+                        <h3 class="card-title">Monthly Total Sale and Purchase (By Price)</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
+                            <canvas id="sale_and_purchase_by_price" width="400" height="350"></canvas>
+                        </div>
+                        <!-- /.d-flex -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col-lg-6">
                 <div class="card shadow-sm">
                     <div class="card-header border-0">
@@ -34,39 +115,7 @@
                             </p>
                         </div>
                         <!-- /.d-flex -->
-                        <div class="d-flex justify-content-between align-items-center mb-0">
-                            <p class="text-danger text-xl">
-                                <ion-icon name="wallet-outline" style="position: relative;top: 10px;"></ion-icon>
-                                <span class="text-md">Expense</span>
-                            </p>
-                            <p class="d-flex flex-column text-right">
-                                <span class="text-muted text-md">{{$totalExpense}} BDT</span>
-                            </p>
-                        </div>
-                        <!-- /.d-flex -->
                     </div>
-                </div>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="info-box shadow-sm">
-                    <span class="info-box-icon bg-warning"><i class="fas fa-money-bill-alt"></i></span>
-
-                    <div class="info-box-content">
-                        <span class="info-box-text">Profit</span>
-                        <span class="info-box-number">{{$pofid}} BDT</span>
-                    </div>
-                    <!-- /.info-box-content -->
-                </div>
-
-                <div class="info-box shadow-sm">
-                    <span class="info-box-icon bg-warning"><i class="fas fa-money-bill-alt"></i></span>
-
-                    <div class="info-box-content">
-                        <span class="info-box-text">Loss</span>
-                        <span class="info-box-number">{{$lose}} BDT</span>
-                    </div>
-                    <!-- /.info-box-content -->
                 </div>
             </div>
         </div>
@@ -208,6 +257,15 @@
 
 @push('scripts')
     <script src="{{ mix('_assets/plugins/chart.js/chart.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+    <script>
+        const purchaseData = @json($purchaseData);
+        const saleData = @json($saleData);
+
+        const purchaseDataByPrice = @json($purchaseDataByPrice);
+        const saleDataByPrice = @json($saleDataByPrice);
+    </script>
 @endpush

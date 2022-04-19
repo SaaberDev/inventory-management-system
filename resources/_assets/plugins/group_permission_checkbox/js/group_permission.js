@@ -35,6 +35,105 @@ $(document).ready(function () {
         $('#product_type').prop("checked", check);
     });
 
+    // Sales Area
+    $('#sales').click(function () {
+        $('.sales').prop('checked', this.checked);
+    });
+    $('.sales').change(function () {
+        var check = ($('.sales').filter(":checked").length == $('.sales').length);
+        $('#sales').prop("checked", check);
+    });
+
+    // Purchase Area
+    $('#purchase').click(function () {
+        $('.purchase').prop('checked', this.checked);
+    });
+    $('.purchase').change(function () {
+        var check = ($('.purchase').filter(":checked").length == $('.purchase').length);
+        $('#purchase').prop("checked", check);
+    });
+
+    // Expense Area
+    $('#expense').click(function () {
+        $('.expense').prop('checked', this.checked);
+    });
+    $('.expense').change(function () {
+        var check = ($('.expense').filter(":checked").length == $('.expense').length);
+        $('#expense').prop("checked", check);
+    });
+
+    // Category Area
+    $('#category').click(function () {
+        $('.category').prop('checked', this.checked);
+    });
+    $('.category').change(function () {
+        var check = ($('.category').filter(":checked").length == $('.category').length);
+        $('#category').prop("checked", check);
+    });
+
+    // transfer Area
+    $('#transfer').click(function () {
+        $('.transfer').prop('checked', this.checked);
+    });
+    $('.transfer').change(function () {
+        var check = ($('.transfer').filter(":checked").length == $('.transfer').length);
+        $('#transfer').prop("checked", check);
+    });
+
+    // stock Area
+    $('#stock').click(function () {
+        $('.stock').prop('checked', this.checked);
+    });
+    $('.stock').change(function () {
+        var check = ($('.stock').filter(":checked").length == $('.stock').length);
+        $('#stock').prop("checked", check);
+    });
+
+    // release Area
+    $('#release').click(function () {
+        $('.release').prop('checked', this.checked);
+    });
+    $('.release').change(function () {
+        var check = ($('.release').filter(":checked").length == $('.release').length);
+        $('#release').prop("checked", check);
+    });
+
+    // unit Area
+    $('#unit').click(function () {
+        $('.unit').prop('checked', this.checked);
+    });
+    $('.unit').change(function () {
+        var check = ($('.unit').filter(":checked").length == $('.unit').length);
+        $('#unit').prop("checked", check);
+    });
+
+    // warehouse Area
+    $('#warehouse').click(function () {
+        $('.warehouse').prop('checked', this.checked);
+    });
+    $('.warehouse').change(function () {
+        var check = ($('.warehouse').filter(":checked").length == $('.warehouse').length);
+        $('#warehouse').prop("checked", check);
+    });
+
+    // clients Area
+    $('#clients').click(function () {
+        $('.clients').prop('checked', this.checked);
+    });
+    $('.clients').change(function () {
+        var check = ($('.clients').filter(":checked").length == $('.clients').length);
+        $('#clients').prop("checked", check);
+    });
+
+    // warehouse Area
+    $('#suppliers').click(function () {
+        $('.suppliers').prop('checked', this.checked);
+    });
+    $('.suppliers').change(function () {
+        var check = ($('.suppliers').filter(":checked").length == $('.suppliers').length);
+        $('#suppliers').prop("checked", check);
+    });
+
     //Administration Area
     $('#administration').click(function () {
         $('.administration').prop('checked', this.checked);

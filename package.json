@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.15.3",
+        "chart.js": "^3.7.1",
         "flatpickr": "^4.6.9",
         "sweetalert2": "^10.12.6"
     }

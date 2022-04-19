@@ -8,6 +8,7 @@
     use App\Models\ProductType;
     use App\Models\Purchase;
     use App\Models\Sale;
+    use Carbon\Carbon;
     use Illuminate\Contracts\Foundation\Application;
     use Illuminate\Contracts\View\Factory;
     use Illuminate\Contracts\View\View;
@@ -52,16 +53,70 @@
                 $pofid = ((int)$totalSale - (int)$purchase);
             }
 
+            $purchaseData = $this->monthlySaleAndPurchaseChartByAmount()['purchase'];
+            $saleData = $this->monthlySaleAndPurchaseChartByAmount()['sale'];
 
-            return view('admin.index',compact('product_raw','product_rele','product_fin','totalSale','totalPurchase','totalExpense','lose','pofid'));
+            $purchaseDataByPrice = $this->monthlySaleAndPurchaseChartByAmount('by_price')['purchase'];
+            $saleDataByPrice = $this->monthlySaleAndPurchaseChartByAmount('by_price')['sale'];
+
+            $totalProducts = Product::count();
+
+            return view('admin.index', compact('product_raw','product_rele','product_fin','totalSale','totalPurchase','totalExpense','lose','pofid', 'purchaseData', 'saleData', 'purchaseDataByPrice', 'saleDataByPrice', 'totalProducts'));
         }
 
         /**
-         * Show the form for creating a new resource.
-         *
-         * @return Response
+         * @return array[]
          */
-        public function create()
+        private function monthlySaleAndPurchaseChartByAmount($type = null)
+        {
+            $purchaseData = [];
+            $saleData = [];
+
+            $months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+            $months = startIndexWithOne($months);
+
+            $count = count($months);
+            // Circle through all 12 months
+            for ($month = 1; $month <= $count; $month++) {
+                // Create a Carbon object from the current year and the current month (equals 2019-01-01 00:00:00)
+                $date = Carbon::create(date('Y'), $month);
+
+                // Make a copy of the start date and move to the end of the month (e.g. 2019-01-31 23:59:59)
+                $date_end = $date->copy()->endOfMonth();
+
+                if ($type === 'by_price') {
+                    $purchase = Purchase::where('created_at', '>=', $date)
+                        ->where('created_at', '<=', $date_end)
+                        ->sum('grand_total');
+
+                    $sale = Sale::where('created_at', '>=', $date)
+                        ->where('created_at', '<=', $date_end)
+                        ->sum('grand_total');
+
+//                    dd($purchase);
+                } else {
+                    $purchase = Purchase::where('created_at', '>=', $date)
+                        ->where('created_at', '<=', $date_end)
+                        ->count();
+
+                    $sale = Sale::where('created_at', '>=', $date)
+                        ->where('created_at', '<=', $date_end)
+                        ->count();
+                }
+
+
+                // Save the count of purchase and sale for the current month in the output array
+                $purchaseData[$months[$month]] = $purchase;
+                $saleData[$months[$month]] = $sale;
+            }
+
+            return [
+                'purchase' => $purchaseData,
+                'sale' => $saleData
+            ];
+        }
+
+        private function monthlySaleAndPurchaseChartByPrice()
         {
             //
         }

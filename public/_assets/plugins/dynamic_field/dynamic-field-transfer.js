@@ -107,31 +107,6 @@
     });
 
     $(document).ready(function () {
-        $('body').on('change', 'input.edit-calculator', function(){
-            let id =  $(this).data("number");
-            let quantity = parseFloat($("#qunatities-"+id).val()) > 0 ?  parseFloat($("#qunatities-"+id).val()) :  0;
-            let stock = parseFloat($("#stock-"+id).val()) > 0 ?  parseFloat($("#stock-"+id).val()) :  0;
-
-            if (quantity <= 0) {
-                Swal.fire({
-                    text:"Quantity should be greater than Zero.",
-                    icon: "warning",
-                })
-                $("#qunatities-"+id).val($("#qunatities-"+id).data('old'));
-            }
-
-            console.log(stock)
-            if (stock < quantity){
-                Swal.fire({
-                    text:"Quantity should be less or Equal than Stock.",
-                    icon: "warning",
-                })
-                $("#qunatities-"+id).val($("#qunatities-"+id).data('old'));
-            }
-        });
-    });
-
-    $(document).ready(function () {
         $('body').on('change', 'select.product-select', function(){
             let id =  $(this).data("number");
             let product_id =  parseFloat($("#products-" + id).find(":selected").val());

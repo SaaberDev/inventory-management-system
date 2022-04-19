@@ -202,9 +202,9 @@
                                             <label class="checkbox" for="sales">
                                                 <input class="form-check-input all"
                                                        id="sales"
-                                                       name="allsales"
+                                                       name="allSales"
                                                        type="checkbox"
-                                                    {{ old('allsales') == 'on' || checkIfGroupHasPermission($role, $salesPermissions, 'sales') ? 'checked="checked"' : '' }}
+                                                    {{ old('allSales') == 'on' || checkIfGroupHasPermission($role, $salesPermissions, 'sales') ? 'checked="checked"' : '' }}
                                                 >
                                                 <span>{{ permissionGroupName($salesPermissions) }}</span>
                                             </label>

@@ -141,3 +141,18 @@
             return optional($model)->getFirstMedia($collectionName) ? $altText : config('dropzone.image.alt');
         }
     }
+
+    if (!function_exists('startIndexWithOne')) {
+
+        function startIndexWithOne(array $array)
+        {
+            $count = count($array);
+            for ($a = 0; $a < $count; ++$a) {
+//                $months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+                array_unshift($array, "extra");
+                unset($array[0]);
+            }
+
+            return $array;
+        }
+    }
