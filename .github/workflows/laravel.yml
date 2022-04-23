@@ -1,0 +1,36 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  job_one:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh commands using ssh keys
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SAABERDEV_HOST }}
+          username: ${{ secrets.SAABERDEV_USERNAME }}
+          key: ${{ secrets.SAABERDEV_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SAABERDEV_PASSPHRASE }}
+          #        password:
+          port: ${{ secrets.SAABERDEV_PORT }}
+          script: |
+            cd /home/saaberdev/inventoryms.saaberdev.com
+            pwd
+            git add .
+            git stash --include-untracked
+            git pull ${{ secrets.SAABERDEV_GITPULL }} master
+            git status
