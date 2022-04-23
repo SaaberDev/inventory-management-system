@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Schema::defaultStringLength(191);
+
         if (app()->environment('production')) {
             Password::defaults(function () {
                 return Password::min(6)
