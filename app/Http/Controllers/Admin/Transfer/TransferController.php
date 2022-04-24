@@ -99,7 +99,7 @@
                 $from_warehouse = Warehouse::findOrFail($request->input('transfer_from'));
                 $to_warehouse = Warehouse::findOrFail($request->input('transfer_to'));
                 $transfer = Transfer::create([
-                    'code' => $codeGenerator->reference(Transfer::class, ['TR', $to_warehouse->shortcut], 'code'),
+                    'code' => $codeGenerator->reference(Transfer::class, ['TR', $to_warehouse->shortcut], 'code', 'to_warehouse_id', $request->input('transfer_to')),
                     'transfer_date' => $request->input('transfer_date'),
                     'from_warehouse_id' => $request->input('transfer_from'),
                     'to_warehouse_id' => $request->input('transfer_to'),

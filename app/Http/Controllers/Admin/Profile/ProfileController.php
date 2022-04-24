@@ -88,7 +88,7 @@
                 report($exception);
                 return back()->with([
                     'alert-type' => 'warning_toast',
-                    'message' => 'Opps, Something went wrong!',
+                    'message' => 'Oops, Something went wrong!',
                 ]);
             }
         }

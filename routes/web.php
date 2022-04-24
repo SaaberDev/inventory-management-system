@@ -160,7 +160,7 @@ use App\Http\Controllers\Admin\Settings\Authorization\AdministrationController;
                     Route::get('/report-getdata', [SalesController::class, 'reportData'])->name('reportData');
 
                 });
-                });
+            });
 
             // Expense
             Route::prefix('expense')->name('expense.')->group(function () {

@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\Purchase\PurchaseRequest;
 use App\Models\Product;
 use App\Models\ProductType;
 use App\Models\Purchase;
+use App\Models\PurchaseDetail;
 use App\Models\Stock;
 use App\Models\Supplier;
 use App\Models\Unit;

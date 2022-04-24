@@ -31,7 +31,7 @@ class WarehouseSeeder extends Seeder
             [
                 'position' => 2,
                 'name' => 'Finished Goods',
-                'shortcut' => 'S',
+                'shortcut' => 'FG',
                 'icon' => 'fas fa-shopping-bag',
             ],
             [

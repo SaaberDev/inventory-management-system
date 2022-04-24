@@ -15,7 +15,7 @@
          * @param $attribute    |   Auto incrementing table attribute
          * @return string       |   'assuming sale unique code i.e. SL0001, SL0002 and so on'.
          */
-        public function reference($model, $shortcuts, string $attribute): string
+        public function reference($model, $shortcuts, string $attribute, $relatedAttribute = null, $relatedKey = null): string
         {
             if (!is_array($shortcuts)) {
                 // simple code structure. i.e. ABC00001
@@ -25,7 +25,16 @@
                 $this->prefix = str_replace(',', '-', implode(',', $shortcuts));
             }
 
-            $oldRecord = $model::where($attribute, 'LIKE', '%'.$this->prefix.'%')->get();
+            $oldRecord = $model::where($attribute, 'LIKE', '%'.$this->prefix.'%');
+
+            if ($relatedAttribute && $relatedKey) {
+                $oldRecord = $oldRecord->where($relatedAttribute, '=', $relatedKey)->get();
+            } else {
+                $oldRecord = $oldRecord->get();
+            }
+
+//            dd($oldRecord);
+
             if (count($oldRecord) > 0) {
                 $max = $oldRecord->max($attribute);
 //                dd($max);
