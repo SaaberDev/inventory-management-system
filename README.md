@@ -32,7 +32,8 @@
 │   └── Transfer
 │       ├── Transfer released product to any relevent warehouse
 │       └── Transfer finished product to any relevent warehouse
-│       └── Transfer both released product and finished product to finished goods warehouse to sell (because user can sell both type of product)
+│       └── Transfer both released product and finished product to finished goods warehouse to sell 
+            (because user can sell both type of product)
 └── Sell
     └── Sell both released product and finished product when it is available in finished goods warehouse
 ```
