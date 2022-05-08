@@ -83,7 +83,7 @@ mix
     .scripts([
         'resources/_assets/plugins/chart.js/Chart.bundle.js',
         'resources/_assets/plugins/chart.js/custom-Chart.js',
-    ], 'public/_assets/plugins/chart.js/chart.js')
+    ], 'public/_assets/plugins/chart-js/chart.js')
 
     // OverlayScrollbars
     .styles([
