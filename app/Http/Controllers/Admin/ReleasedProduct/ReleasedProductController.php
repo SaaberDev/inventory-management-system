@@ -351,22 +351,11 @@
          */
         public function getProducts(Request $request)
         {
-            if ($request->get('query')) {
-                // get all released product id based on warehouse selected warehouse
-                $get_released_product_ids = Product::with('productTypes')
-                    ->where('product_type_id', '=', $request->get('query'))
-                    ->whereHas('stocks', function ($query) use ($request) {
-                        $query->where('warehouse_id', '=', $request->get('warehouse_id'))
-                            ->where('qty', '!=', 0)
-                        ;
-                    })
-                    ->pluck('id');
-
-                $released_products = Product::where('product_type_id', '=', $request->get('query'))
-                    // if the selected warehouse has any released do not show in "Released Product" dropdown
-                    ->whereNotIn('id', $get_released_product_ids)
-                    ->select(['id', 'name', 'code'])
-                    ->get();
+            if ($request->get('query') == ProductType::REL) {
+                $released_products = Product::where('product_type_id', '=', ProductType::REL)->select(['id', 'name', 'code'])->get();
+                return \response()->json($released_products);
+            } elseif ($request->get('query') == ProductType::FIN) {
+                $released_products = Product::where('product_type_id', '=', ProductType::FIN)->select(['id', 'name', 'code'])->get();
                 return \response()->json($released_products);
             } else {
                 return response()->json([

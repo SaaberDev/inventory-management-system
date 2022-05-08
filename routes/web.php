@@ -145,7 +145,7 @@ use App\Http\Controllers\Admin\Settings\Authorization\AdministrationController;
 //                });
             });
 
-            // Sales. code by rajia
+            // Sales
             Route::prefix('sales')->name('sales.')->group(function () {
                 // Purchases
                 Route::name('self.')->group(function () {
@@ -206,7 +206,7 @@ use App\Http\Controllers\Admin\Settings\Authorization\AdministrationController;
                 Route::get('/{id}/warehouse/', [StockController::class, 'index'])->name('index')->middleware(['permission:stock.index']);
             });
 
-            // Stock
+            // Released Products
             Route::prefix('release-product')->name('release.')->group(function () {
                 // Role base transfer routes
                 Route::get('/', [ReleasedProductController::class, 'index'])->name('index')->middleware(['permission:release.index']);

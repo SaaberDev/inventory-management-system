@@ -310,7 +310,6 @@
         $(document).ready(function(){
             $(".product-type").on("change", function () {
                 let product_type =  $("#product_type option:selected").val();
-                let warehouse_id =  $("#released_from").find(":selected").val();
                 if (product_type) {
                     $.ajax({
                         type: "GET",
@@ -318,7 +317,6 @@
                         url: '/api/dashboard/released-products',
                         data: {
                             query: product_type,
-                            warehouse_id: warehouse_id,
                         }
                     })
                         .done(function(data){

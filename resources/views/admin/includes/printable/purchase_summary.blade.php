@@ -169,8 +169,8 @@
 
 @section('content')
     <div class="section-1">
-        <img src="{{ asset('_assets/_default/logo.svg') }}" alt="Company Logo">
-        <h4>HDF Footwear Nabik Ltd.</h4>
+        <img src="{{ asset('_assets/_default/icon.svg') }}" alt="Company Logo">
+        <h4>{{ config('app.name') }}</h4>
     </div>
 
     <hr>
