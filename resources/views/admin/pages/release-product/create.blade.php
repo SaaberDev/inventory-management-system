@@ -316,7 +316,7 @@
                         dataType : 'json',
                         url: '/api/dashboard/released-products',
                         data: {
-                            query: product_type
+                            query: product_type,
                         }
                     })
                         .done(function(data){

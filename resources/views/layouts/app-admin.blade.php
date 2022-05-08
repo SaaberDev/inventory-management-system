@@ -12,7 +12,7 @@
     </noscript>
     {{-- No Script Warning End --}}
     {{-- Browser Favicon --}}
-    <link rel="icon" href="{{ asset('_assets/_default/logo.svg') }}" type="image/svg" sizes="16x16">
+    <link rel="icon" href="{{ asset('_assets/_default/icon.webp') }}" type="image/svg" sizes="16x16">
     {{-- Google Font: Source Sans Pro --}}
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;1,400&display=swap">
     <link rel="stylesheet" href="{{ mix('_assets/plugins/fontawesome/css/fontawesome.css') }}">
@@ -29,7 +29,12 @@
 <div class="wrapper">
     <div class="preloader">
         <div class="row">
-            <img src="{{ asset('_assets/_default/logo.svg') }}" alt="logo" height="100" width="100">
+            <script src="https://cdn.lordicon.com/xdjxvujz.js"></script>
+            <lord-icon
+                src="https://cdn.lordicon.com/nlzvfogq.json"
+                trigger="loop"
+                style="width:250px;height:250px">
+            </lord-icon>
         </div>
     </div>
     <!-- Navbar -->

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title')</title>
-
+    <link rel="icon" href="{{ asset('_assets/_default/icon.webp') }}" type="image/svg" sizes="16x16">
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <link rel="stylesheet" href="{{ mix('_assets/plugins/fontawesome/css/fontawesome.css') }}">
@@ -55,7 +55,8 @@
 <body class="hold-transition login-page">
 <div class="login-box">
     <div class="login-logo">
-        <img src="{{ asset('_assets/_default/logo.svg') }}" alt="logo" class="brand-image" style="width: 30%">
+        <a href="#" style="font-size: 30px;">Inventory<b>MS</b></a>
+        <img src="{{ asset('_assets/_default/icon.webp') }}" alt="logo" class="brand-image" style="width: 14%">
     </div>
     <!-- /.login-logo -->
     <div class="card">

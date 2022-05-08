@@ -13,7 +13,19 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'InventoryMS'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application State
+    |--------------------------------------------------------------------------
+    |
+    | This value is the state of your application. This value is used to determine
+    | if the application is in demo mode.
+    |
+    */
+
+    'demo' => env('APP_DEMO', 'false'),
 
     /*
     |--------------------------------------------------------------------------

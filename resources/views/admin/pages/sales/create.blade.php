@@ -164,10 +164,16 @@
                                 required
                         >
                             <option></option>
-                            @foreach($product_type->products as $product)
-                                <option value="{{ $product->id }}">
-                                    {{ '>' . ' ' . $product->name }}
-                                </option>
+                            @foreach($product_types as $product_type)
+                                @if($product_type->products->isNotEmpty())
+                                    <optgroup label="{{ $product_type->name }}">
+                                        @foreach($product_type->products as $product)
+                                            <option value="{{ $product->id }}">
+                                                {{ '>' . ' ' . $product->name }}
+                                            </option>
+                                        @endforeach
+                                    </optgroup>
+                                @endif
                             @endforeach
                         </select>
                     </div>

@@ -107,7 +107,7 @@
                 report($exception);
                 return back()->with([
                     'alert-type' => 'warning_toast',
-                    'message' => 'Opps, Something went wrong!',
+                    'message' => 'Oops, Something went wrong!',
                 ]);
             }
         }
@@ -193,7 +193,7 @@
                 report($exception);
                 return back()->with([
                     'alert-type' => 'warning_toast',
-                    'message' => 'Opps, Something went wrong!',
+                    'message' => 'Oops, Something went wrong!',
                 ]);
             }
         }
@@ -221,7 +221,7 @@
                 report($exception);
                 return \response()->json([
                     'alert_type' => 'warning',
-                    'message' => 'Opps, Something went wrong!',
+                    'message' => 'Oops, Something went wrong!',
                 ]);
             }
         }

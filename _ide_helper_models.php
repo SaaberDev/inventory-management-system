@@ -14,7 +14,6 @@ namespace App\Models{
 /**
  * App\Models\Client
  *
- * @mixin IdeHelperClient
  * @property int $id
  * @property string $name
  * @property string|null $phone
@@ -38,14 +37,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Client wherePhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Client whereUpdatedAt($value)
  */
-	class IdeHelperClient extends \Eloquent {}
+	class IdeHelperClient {}
 }
 
 namespace App\Models{
 /**
  * App\Models\CustomRole
  *
- * @mixin IdeHelperCustomRole
  * @property int $id
  * @property string $name
  * @property string $guard_name
@@ -65,27 +63,25 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|CustomRole whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CustomRole whereUpdatedAt($value)
  */
-	class IdeHelperCustomRole extends \Eloquent {}
+	class IdeHelperCustomRole {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Damaged
  *
- * @mixin IdeHelperDamaged
  * @method static \Database\Factories\DamagedFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Damaged newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Damaged newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Damaged query()
  */
-	class IdeHelperDamaged extends \Eloquent {}
+	class IdeHelperDamaged {}
 }
 
 namespace App\Models{
 /**
  * App\Models\DamagedItem
  *
- * @mixin IdeHelperDamagedItem
  * @property int $id
  * @property string $damage_date
  * @property string $reason
@@ -103,14 +99,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|DamagedItem whereReason($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DamagedItem whereUpdatedAt($value)
  */
-	class IdeHelperDamagedItem extends \Eloquent {}
+	class IdeHelperDamagedItem {}
 }
 
 namespace App\Models{
 /**
  * App\Models\DamagedItemDetail
  *
- * @mixin IdeHelperDamagedItemDetail
  * @property int $id
  * @property int $damaged_item_id
  * @property int $warehouse_id
@@ -130,17 +125,16 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|DamagedItemDetail whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DamagedItemDetail whereWarehouseId($value)
  */
-	class IdeHelperDamagedItemDetail extends \Eloquent {}
+	class IdeHelperDamagedItemDetail {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Expense
  *
- * @mixin IdeHelperExpense
  * @property int $id
  * @property string $reason
- * @property string $expenses_date
+ * @property string $sale_date
  * @property int $expense_category_id
  * @property float $cost
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -153,19 +147,18 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Expense whereCost($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Expense whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Expense whereExpenseCategoryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Expense whereExpensesDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Expense whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Expense whereReason($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Expense whereSaleDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Expense whereUpdatedAt($value)
  */
-	class IdeHelperExpense extends \Eloquent {}
+	class IdeHelperExpense {}
 }
 
 namespace App\Models{
 /**
  * App\Models\ExpenseCategory
  *
- * @mixin IdeHelperExpenseCategory
  * @property int $id
  * @property string $name
  * @property string $desc
@@ -181,14 +174,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory whereUpdatedAt($value)
  */
-	class IdeHelperExpenseCategory extends \Eloquent {}
+	class IdeHelperExpenseCategory {}
 }
 
 namespace App\Models{
 /**
  * App\Models\GroupPermission
  *
- * @mixin IdeHelperGroupPermission
  * @property int $id
  * @property string $name
  * @property string|null $group_name
@@ -196,7 +188,7 @@ namespace App\Models{
  * @property string $guard_name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|Permission[] $permissions
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
  * @property-read int|null $permissions_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
  * @property-read int|null $roles_count
@@ -215,14 +207,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|GroupPermission whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GroupPermission whereUpdatedAt($value)
  */
-	class IdeHelperGroupPermission extends \Eloquent {}
+	class IdeHelperGroupPermission {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Product
  *
- * @mixin IdeHelperProduct
  * @property int $id
  * @property string $code
  * @property string $name
@@ -232,8 +223,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\ProductType $productTypes
- * @property-read \App\Models\PurchaseDetail $purchaseDetails
- * @property-read \App\Models\SaleDetail $salesDetails
+ * @property-read \App\Models\PurchaseDetail|null $purchaseDetails
+ * @property-read \App\Models\SaleDetail|null $salesDetails
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Warehouse[] $stocks
  * @property-read int|null $stocks_count
  * @property-read \App\Models\Unit $units
@@ -250,14 +241,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereUnitId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereUpdatedAt($value)
  */
-	class IdeHelperProduct extends \Eloquent {}
+	class IdeHelperProduct {}
 }
 
 namespace App\Models{
 /**
  * App\Models\ProductType
  *
- * @mixin IdeHelperProductType
  * @property int $id
  * @property string $name
  * @property string $shortcut
@@ -275,14 +265,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|ProductType whereShortcut($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductType whereUpdatedAt($value)
  */
-	class IdeHelperProductType extends \Eloquent {}
+	class IdeHelperProductType {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Purchase
  *
- * @mixin IdeHelperPurchase
  * @property int $id
  * @property string $code
  * @property string $purchase_date
@@ -323,14 +312,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Purchase whereTransportCost($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Purchase whereUpdatedAt($value)
  */
-	class IdeHelperPurchase extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+	class IdeHelperPurchase {}
 }
 
 namespace App\Models{
 /**
  * App\Models\PurchaseDetail
  *
- * @mixin IdeHelperPurchaseDetail
  * @property int $id
  * @property int $purchase_id
  * @property int $product_id
@@ -359,14 +347,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail whereWarehouseId($value)
  */
-	class IdeHelperPurchaseDetail extends \Eloquent {}
+	class IdeHelperPurchaseDetail {}
 }
 
 namespace App\Models{
 /**
  * App\Models\ReleasedProduct
  *
- * @mixin IdeHelperReleasedProduct
  * @property int $id
  * @property string $code
  * @property string $released_date
@@ -396,14 +383,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|ReleasedProduct whereReleasedDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ReleasedProduct whereUpdatedAt($value)
  */
-	class IdeHelperReleasedProduct extends \Eloquent {}
+	class IdeHelperReleasedProduct {}
 }
 
 namespace App\Models{
 /**
  * App\Models\ReleasedProductDetail
  *
- * @mixin IdeHelperReleasedProductDetail
  * @property int $id
  * @property int $released_product_id
  * @property int $product_id
@@ -423,14 +409,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|ReleasedProductDetail whereReleasedProductId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ReleasedProductDetail whereUpdatedAt($value)
  */
-	class IdeHelperReleasedProductDetail extends \Eloquent {}
+	class IdeHelperReleasedProductDetail {}
 }
 
 namespace App\Models{
 /**
  * App\Models\ReturnedItem
  *
- * @mixin IdeHelperReturnedItem
  * @property int $id
  * @property int|null $supplier_id
  * @property int|null $client_id
@@ -452,14 +437,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|ReturnedItem whereSupplierId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ReturnedItem whereUpdatedAt($value)
  */
-	class IdeHelperReturnedItem extends \Eloquent {}
+	class IdeHelperReturnedItem {}
 }
 
 namespace App\Models{
 /**
  * App\Models\ReturnedItemDetail
  *
- * @mixin IdeHelperReturnedItemDetail
  * @property int $id
  * @property int|null $returned_item_id
  * @property int|null $warehouse_id
@@ -479,14 +463,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|ReturnedItemDetail whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ReturnedItemDetail whereWarehouseId($value)
  */
-	class IdeHelperReturnedItemDetail extends \Eloquent {}
+	class IdeHelperReturnedItemDetail {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Sale
  *
- * @mixin IdeHelperSale
  * @property int $id
  * @property string $code
  * @property string $sale_date
@@ -525,14 +508,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Sale whereTransportCost($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Sale whereUpdatedAt($value)
  */
-	class IdeHelperSale extends \Eloquent {}
+	class IdeHelperSale {}
 }
 
 namespace App\Models{
 /**
  * App\Models\SaleDetail
  *
- * @mixin IdeHelperSaleDetail
  * @property int $id
  * @property int $sale_id
  * @property int $product_id
@@ -557,14 +539,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetail whereUnitPrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetail whereUpdatedAt($value)
  */
-	class IdeHelperSaleDetail extends \Eloquent {}
+	class IdeHelperSaleDetail {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Stock
  *
- * @mixin IdeHelperStock
  * @property int $id
  * @property float $qty
  * @property int $product_id
@@ -584,14 +565,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Stock whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Stock whereWarehouseId($value)
  */
-	class IdeHelperStock extends \Eloquent {}
+	class IdeHelperStock {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Supplier
  *
- * @mixin IdeHelperSupplier
  * @property int $id
  * @property string $name
  * @property string $phone
@@ -617,14 +597,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Supplier wherePhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Supplier whereUpdatedAt($value)
  */
-	class IdeHelperSupplier extends \Eloquent {}
+	class IdeHelperSupplier {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Transfer
  *
- * @mixin IdeHelperTransfer
  * @property int $id
  * @property string $code
  * @property string $transfer_date
@@ -650,14 +629,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Transfer whereTransferDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Transfer whereUpdatedAt($value)
  */
-	class IdeHelperTransfer extends \Eloquent {}
+	class IdeHelperTransfer {}
 }
 
 namespace App\Models{
 /**
  * App\Models\TransferDetail
  *
- * @mixin IdeHelperTransferDetail
  * @property int $id
  * @property int $transfer_id
  * @property int $product_id
@@ -677,14 +655,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|TransferDetail whereTransferId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TransferDetail whereUpdatedAt($value)
  */
-	class IdeHelperTransferDetail extends \Eloquent {}
+	class IdeHelperTransferDetail {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Unit
  *
- * @mixin IdeHelperUnit
  * @property int $id
  * @property string $name
  * @property string $shortcut
@@ -700,27 +677,25 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Unit whereShortcut($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Unit whereUpdatedAt($value)
  */
-	class IdeHelperUnit extends \Eloquent {}
+	class IdeHelperUnit {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Used
  *
- * @mixin IdeHelperUsed
  * @method static \Database\Factories\UsedFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Used newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Used newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Used query()
  */
-	class IdeHelperUsed extends \Eloquent {}
+	class IdeHelperUsed {}
 }
 
 namespace App\Models{
 /**
  * App\Models\User
  *
- * @mixin IdeHelperUser
  * @property int $id
  * @property string $name
  * @property string|null $designation
@@ -756,14 +731,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUsername($value)
  */
-	class IdeHelperUser extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+	class IdeHelperUser {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Warehouse
  *
- * @mixin IdeHelperWarehouse
  * @property int $id
  * @property int $position
  * @property string $name
@@ -785,6 +759,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Warehouse whereShortcut($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Warehouse whereUpdatedAt($value)
  */
-	class IdeHelperWarehouse extends \Eloquent {}
+	class IdeHelperWarehouse {}
 }
 

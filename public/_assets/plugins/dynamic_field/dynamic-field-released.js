@@ -107,7 +107,7 @@
             if (x === 1) {
                 let _thisTransferFrom = $("#released_from");
                 _thisTransferFrom.prop('disabled', false);
-                $(_thisTransferFrom, "input[type='hidden']").remove();
+                // $(_thisTransferFrom, "input[type='hidden']").remove();
             }
         });
     });

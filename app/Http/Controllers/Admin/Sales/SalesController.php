@@ -59,12 +59,13 @@
         public function create()
         {
             $client = Client::all();
-            $product_type = ProductType::with(['products' => function ($query) {
+            $product_types = ProductType::with(['products' => function ($query) {
                 $query->whereHas('stocks', function ($query) {
-                    $query->where('qty', '!=', 0);
-                });
-            }])->findOrFail(ProductType::FIN);
-            return view('admin.pages.sales.create', compact('product_type','client'));
+                    $query->where('warehouse_id', '=', Warehouse::FINISHED)->where('qty', '!=', 0);
+                })->whereIn('product_type_id', [ProductType::REL, ProductType::FIN]);
+            }])->get();
+
+            return view('admin.pages.sales.create', compact('product_types','client'));
         }
 
         /**
@@ -310,26 +311,6 @@
                 ]);
             }
         }
-
-        /**
-         * @param Dropzone $dropzone
-         * @param Request $request
-         * @return JsonResponse|void
-         */
-
-
-        /**
-         * @param Dropzone $dropzone
-         * @return JsonResponse
-         */
-
-
-        /**
-         * @param Dropzone $dropzone
-         * @param Request $request
-         * @return JsonResponse
-         */
-
 
         /**
          * @return JsonResponse

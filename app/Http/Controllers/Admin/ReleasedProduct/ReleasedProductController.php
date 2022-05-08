@@ -111,7 +111,7 @@
                 $product_type = ProductType::where('id', '=', $request->input('product_type'))->firstOrFail();
 
                 $released_products = ReleasedProduct::create([
-                    'code' => $codeGenerator->reference(ReleasedProduct::class, [$product_type->shortcut, $from_warehouse->shortcut], 'code'),
+                    'code' => $codeGenerator->reference(ReleasedProduct::class, [$product_type->shortcut, $from_warehouse->shortcut], 'code', 'from_warehouse_id', $request->input('released_from')),
                     'released_date' => $request->input('released_date'),
                     'from_warehouse_id' => $request->input('released_from'),
                     'product_type_id' => $request->input('product_type'),
@@ -148,7 +148,7 @@
                 ]);
             } catch (Exception $exception) {
                 DB::rollBack();
-                report($exception);
+                report_log($exception);
                 return back()->with([
                     'alert-type' => 'warning_toast',
                     'message' => 'Oops, Something went wrong!',
@@ -324,13 +324,13 @@
         public function getProductsByWarehouse(Request $request)
         {
             $products_by_warehouse = Warehouse::findOrFail($request->get('id'));
-            $released_products = ReleasedProduct::where('from_warehouse_id', '=', $request->get('id'))->distinct()->pluck('product_id')->toArray();
+//            $released_products = ReleasedProduct::where('from_warehouse_id', '=', $request->get('id'))->distinct()->pluck('product_id')->toArray();
 
             $stocks = $products_by_warehouse->stocks()
                 ->where('qty', '!=', 0)
                 ->whereIn('product_type_id', [ProductType::RAW, ProductType::REL])
                 // if released product warehouse_id is equals to released_from do not display
-                ->whereNotIn('product_id', $released_products)
+//                ->whereNotIn('product_id', $released_products)
                 ->get();
 
             $data = [];
@@ -352,13 +352,7 @@
         public function getProducts(Request $request)
         {
             if ($request->get('query') == ProductType::REL) {
-                // get released product_id
-                $get_released_product_ids = ReleasedProduct::distinct()->pluck('product_id')->toArray();
-                $released_products = Product::where('product_type_id', '=', ProductType::REL)
-                    // if product is already released do not display them
-                    ->whereNotIn('id', $get_released_product_ids)
-                    ->select(['id', 'name', 'code'])
-                    ->get();
+                $released_products = Product::where('product_type_id', '=', ProductType::REL)->select(['id', 'name', 'code'])->get();
                 return \response()->json($released_products);
             } elseif ($request->get('query') == ProductType::FIN) {
                 $released_products = Product::where('product_type_id', '=', ProductType::FIN)->select(['id', 'name', 'code'])->get();

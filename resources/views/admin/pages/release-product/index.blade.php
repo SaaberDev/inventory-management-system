@@ -1,5 +1,5 @@
 @extends('layouts.app-admin')
-@section('title', '')
+@section('title', 'Released Products')
 
 @push('styles')
     <style>
