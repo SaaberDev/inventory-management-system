@@ -13,29 +13,31 @@
     </li>
 
     {{-- Products --}}
-    @can('product.*')
-        <li class="nav-header">PRODUCTS</li>
+    @if('product.*'||'product_type.*')
+        @canany(['product.index', 'product_type.index'])
+            <li class="nav-header">PRODUCTS</li>
+        @endcanany
         @can('product.index')
-            <li wire:ignore class="nav-item">
-                <a href="{{ route('admin.product.self.index') }}" class="nav-link {{ Route::is('admin.product.self.*') ? 'active' : '' }}">
-                    <i class="nav-icon fas fa-list-alt"></i>
-                    <p>
-                        Products
-                    </p>
-                </a>
-            </li>
-        @endcan
-        @can('product_type.index')
-            <li wire:ignore class="nav-item">
-                <a href="{{ route('admin.product.type.index') }}" class="nav-link {{ Route::is('admin.product.type.*') ? 'active' : '' }}">
-                    <i class="nav-icon fas fa-tags"></i>
-                    <p>
-                        Types
-                    </p>
-                </a>
-            </li>
-        @endcan
-    @endcan
+                <li wire:ignore class="nav-item">
+                    <a href="{{ route('admin.product.self.index') }}" class="nav-link {{ Route::is('admin.product.self.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-list-alt"></i>
+                        <p>
+                            Products
+                        </p>
+                    </a>
+                </li>
+            @endcan
+            @can('product_type.index')
+                <li wire:ignore class="nav-item">
+                    <a href="{{ route('admin.product.type.index') }}" class="nav-link {{ Route::is('admin.product.type.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-tags"></i>
+                        <p>
+                            Types
+                        </p>
+                    </a>
+                </li>
+            @endcan
+    @endif
 
     {{-- Purchase --}}
     @can('purchase.index')

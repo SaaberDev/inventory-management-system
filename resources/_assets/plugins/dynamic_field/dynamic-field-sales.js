@@ -1,6 +1,6 @@
 (function(){
     "use strict";
-
+    let products = [];
     const URL = '/api/dashboard/sales';
     // dynamic add product fields
     $(document).ready(function(){
@@ -16,6 +16,8 @@
         }
         //Once add button is clicked
         $(".add_button").on("click", function () {
+            let product_id =  parseFloat($("#products-" + x).find(":selected").val());
+            products.push(product_id);
             $.ajax({
                 type: "GET",
                 dataType : 'json',
@@ -28,32 +30,14 @@
                         // initSelect2();
                         let inputHtml = '';
 
-                        // $.each(data, function (key, value) {
-                        inputHtml += '<optgroup label="'+data.name+'">';
-                        $.each(data.products, function (key, value) {
-                            inputHtml += '<option value="'+value.id+'">'+ ">" + ' ' +value.name+'</option></optgroup>'
+                        $.each(data, function (key, value) {
+                            inputHtml += '<optgroup label="'+value.name+'">';
+                            $.each(value.products, function (key, value) {
+                                inputHtml += '<option value="'+value.id+'">'+ ">" + ' ' +value.name+'</option></optgroup>'
+                            });
                         });
-                        // });
 
-                        $(".field_wrapper").append('<div class="row"> <div class="col-md-3 form-group"> <label for="products" class="col-form-label">Product Name<span class="text-danger"> *</span></label> <select class="form-control product-select select2bs4_el" id="products-' + x + '" name="products[]" style="width: 100%;" data-placeholder="Choose a Product" required><option></option>'+inputHtml+'</select> </div><div class="col-md-3 form-group"> <div class="row"> <div class="col-md-6"> <label for="qunatities" class="col-form-label">Quantity<span class="text-danger"> *</span></label> <input type="number" step="0.01" class="form-control quantity ' + type + '" id="qunatities-' + x + '" data-number="' + x + '" name="quantities[]" placeholder="Quantity" min="1" > </div><div class="col-md-6"> <label for="stock-'+ x +'" class="col-form-label">Stock</label> <input type="text" class="form-control stock " name="stock" id="stock-'+ x +'" value="" disabled> </div></div></div><div class="col-md-3 form-group"> <div class="row"> <div class="col-md-6"> <label for="unitPrices[]" class="col-form-label">Unit Price<span class="text-danger"> *</span> </label> <input type="number" step="0.01" class="form-control ' + type + '" id="unitPrices-' + x + '" data-number="' + x + '" name="unitPrices[]" placeholder="Unit price" min="1" > </div><div class="col-md-6"> <label for="discounts[]" class="col-form-label">Discount(%)</label> <input type="number" step="any" min="0" class="form-control ' + type + '" id="discounts-' + x + '" data-number="' + x + '" name="discounts[]" placeholder="Discount"> </div></div></div><div class="col-md-2 form-group"> <label for="singleTotal[]" class="col-form-label">Product Total</label> <input type="text" class="form-control" id="singleTotal-' + x + '" name="singleTotal[]" placeholder="Product Total" readonly> </div><a class="col-md-1 remove_button btn btn-danger dynamic-btn updateTotalBtn" data-number="' + x + '" title="Remove" href="#" ><i class="fas fa-backspace"></i></a></div>');
-
-                        $(".product-select").on("change", function () {
-                            let product_id =  $("#products-" + x).find(":selected").val();
-                            $.ajax({
-                                type: "GET",
-                                dataType : 'json',
-                                url: URL + '/get-stock',
-                                data: {
-                                    id: product_id
-                                }
-                            })
-                                .done(function(data){
-                                    $("#stock-" + x).val(data.stock + ' ' + data.shortcut)
-                                })
-                                .fail(function(){
-                                    console.log('Ajax Failed')
-                                });
-                        });
+                        $(".field_wrapper").append('<div class="row"> <div class="col-md-3 form-group"> <label for="products" class="col-form-label">Product Name<span class="text-danger"> *</span></label> <select class="form-control product-select select2bs4_el" id="products-' + x + '" name="products[]" style="width: 100%;" data-placeholder="Choose a Product" data-number="'+ x +'" required><option></option>'+inputHtml+'</select> </div><div class="col-md-3 form-group"> <div class="row"> <div class="col-md-6"> <label for="qunatities" class="col-form-label">Quantity<span class="text-danger"> *</span></label> <input type="number" step="0.01" class="form-control quantity ' + type + '" id="qunatities-' + x + '" data-number="' + x + '" name="quantities[]" placeholder="Quantity" min="1" > </div><div class="col-md-6"> <label for="stock-'+ x +'" class="col-form-label">Stock</label> <input type="text" class="form-control stock " name="stock" id="stock-'+ x +'" value="" disabled> </div></div></div><div class="col-md-3 form-group"> <div class="row"> <div class="col-md-6"> <label for="unitPrices[]" class="col-form-label">Unit Price<span class="text-danger"> *</span> </label> <input type="number" step="0.01" class="form-control ' + type + '" id="unitPrices-' + x + '" data-number="' + x + '" name="unitPrices[]" placeholder="Unit price" min="1" > </div><div class="col-md-6"> <label for="discounts[]" class="col-form-label">Discount(%)</label> <input type="number" step="any" min="0" class="form-control ' + type + '" id="discounts-' + x + '" data-number="' + x + '" name="discounts[]" placeholder="Discount"> </div></div></div><div class="col-md-2 form-group"> <label for="singleTotal[]" class="col-form-label">Product Total</label> <input type="text" class="form-control" id="singleTotal-' + x + '" name="singleTotal[]" placeholder="Product Total" readonly> </div><a class="col-md-1 remove_button btn btn-danger dynamic-btn updateTotalBtn" data-number="' + x + '" title="Remove" href="#" ><i class="fas fa-backspace"></i></a></div>');
 
                         initSelect2();
                     }
@@ -76,18 +60,28 @@
     $(document).ready(function(){
         $('body').on('change', 'input.calculator', function(){
             let id =  $(this).data("number");
-            let quantity = $("#qunatities-"+id).val() > 0 ?  $("#qunatities-"+id).val() :  0;
-            let stock = $("#stock-"+id).val() > 0 ?  $("#stock-"+id).val() :  0;
+            let quantity = parseFloat($("#qunatities-"+id).val()) > 0 ?  parseFloat($("#qunatities-"+id).val()) :  0;
+            let stock = parseFloat($("#stock-"+id).val()) > 0 ?  parseFloat($("#stock-"+id).val()) :  0;
             let price = $("#unitPrices-"+id).val() > 0 ? $("#unitPrices-"+id).val() : 0;
             let discount = $("#discounts-"+id).val() > 0 ? $("#discounts-"+id).val() : 0;
             let subTotal = 0;
             let totalDiscount = 0;
             let singleTotal = quantity * price;
             $("#singleTotal-"+id).val(singleTotal - (discount / 100) * singleTotal);
-           if(stock < quantity){
-               alert("Quantity should be less or Equal than Stock.");
-               $("#qunatities-"+id).val('');
-           }
+            if (quantity <= 0) {
+                Swal.fire({
+                    text:"Quantity should be greater than Zero.",
+                    icon: "warning",
+                })
+                $("#qunatities-"+id).val('');
+            }
+            if (stock < quantity){
+                Swal.fire({
+                    text:"Quantity should be less or Equal than Stock.",
+                    icon: "warning",
+                })
+                $("#qunatities-"+id).val('');
+            }
             if(items.length == 0)
             {
                 items.push({
@@ -213,6 +207,36 @@
         }
         return totalDiscount;
     }
+
+    $(document).ready(function () {
+        $('body').on('change', 'select.product-select', function(){
+            let id =  $(this).data("number");
+            let product_id =  parseFloat($("#products-" + id).find(":selected").val());
+
+            if (jQuery.inArray(product_id, products) > -1) {
+                Swal.fire({
+                    text:"Product already selected.",
+                    icon: "warning",
+                });
+                $("#products-"+id).val(null).trigger('change');
+            } else {
+                $.ajax({
+                    type: "GET",
+                    dataType : 'json',
+                    url: URL + '/get-stock',
+                    data: {
+                        id: product_id
+                    }
+                })
+                    .done(function(data){
+                        $("#stock-" + id).val(data.stock + ' ' + data.shortcut)
+                    })
+                    .fail(function(){
+                        console.log('Ajax Failed')
+                    });
+            }
+        });
+    });
 
     // calculate total when remove a row
     $(document).ready(function(){

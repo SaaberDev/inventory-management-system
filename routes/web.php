@@ -9,8 +9,8 @@
     use App\Http\Controllers\Admin\Purchase\PurchaseController;
     use App\Http\Controllers\Admin\Product\ProductController;
     use App\Http\Controllers\Admin\ReleasedProduct\ReleasedProductController;
-use App\Http\Controllers\Admin\Sales\SalesController;
-use App\Http\Controllers\Admin\Settings\Authorization\AdministrationController;
+    use App\Http\Controllers\Admin\Sales\SalesController;
+    use App\Http\Controllers\Admin\Settings\Authorization\AdministrationController;
     use App\Http\Controllers\Admin\Settings\Authorization\RoleController;
     use App\Http\Controllers\Admin\Settings\ClientController;
     use App\Http\Controllers\Admin\Settings\SupplierController;
@@ -85,50 +85,50 @@ use App\Http\Controllers\Admin\Settings\Authorization\AdministrationController;
             Route::prefix('products')
                 ->name('product.')
                 ->group(function () {
-                Route::name('self.')->group(function () {
-                    Route::get('/', [ProductController::class, 'index'])->name('index')->middleware(['permission:product.index']);
-                    Route::get('/add', [ProductController::class, 'create'])->name('create')->middleware(['permission:product.create']);
-                    Route::post('/store', [ProductController::class, 'store'])->name('store')->middleware(['permission:product.store']);
-                    Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('edit')->middleware(['permission:product.edit']);
-                    Route::patch('/update/{id}', [ProductController::class, 'update'])->name('update')->middleware(['permission:product.update']);
-                    Route::delete('/delete/{id}', [ProductController::class, 'destroy'])->name('delete')->middleware(['permission:product.delete']);
-                });
+                    Route::name('self.')->group(function () {
+                        Route::get('/', [ProductController::class, 'index'])->name('index')->middleware(['permission:product.index']);
+                        Route::get('/add', [ProductController::class, 'create'])->name('create')->middleware(['permission:product.create']);
+                        Route::post('/store', [ProductController::class, 'store'])->name('store')->middleware(['permission:product.store']);
+                        Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('edit')->middleware(['permission:product.edit']);
+                        Route::patch('/update/{id}', [ProductController::class, 'update'])->name('update')->middleware(['permission:product.update']);
+                        Route::delete('/delete/{id}', [ProductController::class, 'destroy'])->name('delete')->middleware(['permission:product.delete']);
+                    });
 
-                // Product Types
-                Route::prefix('type')->name('type.')->group(function () {
-                    Route::get('/', [ProductTypeController::class, 'index'])->name('index')->middleware(['permission:product_type.index']);
-                    Route::get('/add', [ProductTypeController::class, 'create'])->name('create')->middleware(['permission:product_type.create']);
-                    Route::post('/store', [ProductTypeController::class, 'store'])->name('store')->middleware(['permission:product_type.store']);
-                    Route::get('/edit/{id}', [ProductTypeController::class, 'edit'])->name('edit')->middleware(['permission:product_type.edit']);
-                    Route::patch('/update/{id}', [ProductTypeController::class, 'update'])->name('update')->middleware(['permission:product_type.update']);
-                    Route::delete('/delete/{id}', [ProductTypeController::class, 'destroy'])->name('delete')->middleware(['permission:product_type.delete']);
+                    // Product Types
+                    Route::prefix('type')->name('type.')->group(function () {
+                        Route::get('/', [ProductTypeController::class, 'index'])->name('index')->middleware(['permission:product_type.index']);
+                        Route::get('/add', [ProductTypeController::class, 'create'])->name('create')->middleware(['permission:product_type.create']);
+                        Route::post('/store', [ProductTypeController::class, 'store'])->name('store')->middleware(['permission:product_type.store']);
+                        Route::get('/edit/{id}', [ProductTypeController::class, 'edit'])->name('edit')->middleware(['permission:product_type.edit']);
+                        Route::patch('/update/{id}', [ProductTypeController::class, 'update'])->name('update')->middleware(['permission:product_type.update']);
+                        Route::delete('/delete/{id}', [ProductTypeController::class, 'destroy'])->name('delete')->middleware(['permission:product_type.delete']);
+                    });
                 });
-            });
 
 
             // Purchase
             Route::prefix('purchase')
                 ->name('purchase.')
                 ->group(function () {
-                // Purchases
-                Route::name('self.')->group(function () {
-                    Route::get('/', [PurchaseController::class, 'index'])->name('index')->middleware(['permission:product_type.index']);
-                    Route::get('/add', [PurchaseController::class, 'create'])->name('create')->middleware(['permission:purchase.create']);
-                    Route::post('/store', [PurchaseController::class, 'store'])->name('store')->middleware(['permission:purchase.store']);
-                    Route::get('/show/{code}', [PurchaseController::class, 'show'])->name('show')->middleware(['permission:purchase.show']);
-                    Route::get('/edit/{id}', [PurchaseController::class, 'edit'])->name('edit')->middleware(['permission:purchase.edit']);
-                    Route::patch('/update/{id}', [PurchaseController::class, 'update'])->name('update')->middleware(['permission:purchase.update']);
-                    Route::delete('/delete/{id}', [PurchaseController::class, 'destroy'])->name('delete')->middleware(['permission:purchase.delete']);
+                    // Purchases
+                    Route::name('self.')->group(function () {
+                        Route::get('/', [PurchaseController::class, 'index'])->name('index')->middleware(['permission:product_type.index']);
+                        Route::get('/add', [PurchaseController::class, 'create'])->name('create')->middleware(['permission:purchase.create']);
+                        Route::post('/store', [PurchaseController::class, 'store'])->name('store')->middleware(['permission:purchase.store']);
+                        Route::get('/show/{code}', [PurchaseController::class, 'show'])->name('show')->middleware(['permission:purchase.show']);
+                        Route::get('/edit/{id}', [PurchaseController::class, 'edit'])->name('edit')->middleware(['permission:purchase.edit']);
+                        Route::patch('/update/{id}', [PurchaseController::class, 'update'])->name('update')->middleware(['permission:purchase.update']);
+                        Route::delete('/delete/{id}', [PurchaseController::class, 'destroy'])->name('delete')->middleware(['permission:purchase.delete']);
 //                    report
-                    Route::get('/report', [PurchaseController::class, 'report'])->name('report')->middleware(['permission:dashboard.report.purchase']);
-                    Route::get('/report-getdata', [PurchaseController::class, 'reportData'])->name('reportData');
-                    // Dropzone Media Ajax
-                    Route::get('/get-media', [PurchaseController::class, 'getMedia'])->name('getMedia');
-                    Route::post('/store-media', [PurchaseController::class, 'storeMedia'])->name('storeMedia');
-                    Route::delete('/delete-media', [PurchaseController::class, 'destroyMedia'])->name('deleteMedia');
-                });
+                        Route::get('/report', [PurchaseController::class, 'report'])->name('report')->middleware(['permission:dashboard.report.purchase']);
+                        Route::get('/report-getdata', [PurchaseController::class, 'reportData'])->name('reportData');
+                        // Dropzone Media Ajax
+                        Route::get('/get-media', [PurchaseController::class, 'getMedia'])->name('getMedia');
+                        Route::post('/store-media', [PurchaseController::class, 'storeMedia'])->name('storeMedia');
+                        Route::delete('/delete-media', [PurchaseController::class, 'destroyMedia'])->name('deleteMedia');
+                    });
 
-                // Damaged Purchase
+                    // Damaged Purchase
 //                Route::prefix('damaged')->name('damaged.')->group(function () {
 //                    Route::get('/', [DamagedController::class, 'index'])->name('index');
 //                    Route::get('/add', [DamagedController::class, 'create'])->name('create');
@@ -139,11 +139,11 @@ use App\Http\Controllers\Admin\Settings\Authorization\AdministrationController;
 //                    Route::post('get-purchases/{id}', [DamagedController::class, 'getPurchase'])->name('getPurchase');
 //                });
 
-                // Purchase Inventory
+                    // Purchase Inventory
 //                Route::prefix('inventory')->name('inventory.')->group(function () {
 //                    Route::get('/', [\App\Http\Controllers\Admin\Stock\StockController::class, 'index'])->name('index');
 //                });
-            });
+                });
 
             // Sales
             Route::prefix('sales')->name('sales.')->group(function () {
@@ -158,7 +158,10 @@ use App\Http\Controllers\Admin\Settings\Authorization\AdministrationController;
                     Route::delete('/delete/{id}', [SalesController::class, 'destroy'])->name('delete')->middleware(['permission:sales.delete']);
                     Route::get('/report', [SalesController::class, 'report'])->name('report')->middleware(['permission:dashboard.report.sale']);
                     Route::get('/report-getdata', [SalesController::class, 'reportData'])->name('reportData');
-
+                    // Dropzone Media Ajax
+                    Route::get('/get-media', [SalesController::class, 'getMedia'])->name('getMedia');
+                    Route::post('/store-media', [SalesController::class, 'storeMedia'])->name('storeMedia');
+                    Route::delete('/delete-media', [SalesController::class, 'destroyMedia'])->name('deleteMedia');
                 });
             });
 

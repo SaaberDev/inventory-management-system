@@ -159,15 +159,19 @@
                                     required
                             >
                                 <option></option>
-                                <optgroup label="{{ $product_type->name }}">
-                                    @foreach($product_type->products as $product)
-                                        <option value="{{ $product->id }}"
-                                            {{ $product->id == $sales_details->product_id ? 'selected' : '' }}
-                                        >
-                                            {{ '>' . ' ' . $product->name }}
-                                        </option>
-                                    @endforeach
-                                </optgroup>
+                                @foreach($product_types as $product_type)
+                                    @if($product_type->products->isNotEmpty())
+                                        <optgroup label="{{ $product_type->name }}">
+                                            @foreach($product_type->products as $product)
+                                                <option value="{{ $product->id }}"
+                                                    {{ $product->id == $sales_details->product_id ? 'selected' : '' }}
+                                                >
+                                                    {{ '>' . ' ' . $product->name }}
+                                                </option>
+                                            @endforeach
+                                        </optgroup>
+                                    @endif
+                                @endforeach
                             </select>
 
                             @if($errors->has('products.' . $loop->index))
@@ -400,6 +404,18 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <div class="needsclick dropzone" id="multiple-media-dropzone">
+                                <div class="dz-message" data-dz-message>
+                                    <span>Drop files here or click to upload.</span> <br>
+                                    <span style="color: #dc3545;font-size: 13px;">Maximum allowed file size 2MB. Allowed file types are jpeg, png.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-sm-12">
@@ -421,11 +437,12 @@
         'dropzone' => Str::camel('multiple-media-dropzone'), // dropzone div id
         'getRequestParam' => 'sales',
         'fileInputName' => 'multiple_media',
-        'get' => '',
-        'store' => '',
-        'delete' => '',
+        'get' => route('admin.sales.self.getMedia'),
+        'store' => route('admin.sales.self.storeMedia'),
+        'delete' => route('admin.sales.self.deleteMedia'),
         'model' => $sale, // your model name for query
         'maxFilesize' => 2,
+        'maxFiles' => 10,
         'acceptedFiles' => 'image/jpeg, image/png',
     ])
 
