@@ -200,8 +200,9 @@
     <script>
         // get products for selected purchase
         $(document).ready(function(){
+            let transfer_from;
             $(".transfer-from").on("change", function () {
-                let transfer_from =  $("#transfer_from option:selected").val();
+                transfer_from =  $("#transfer_from option:selected").val();
                 if (transfer_from) {
                     $.ajax({
                         type: "GET",
@@ -226,6 +227,17 @@
                         });
                 } else {
                     $("#products-1").empty();
+                }
+            });
+
+            $('#transfer_to').on('change', function () {
+                let transfer_to =  $("#transfer_to option:selected").val();
+                if (transfer_to === transfer_from) {
+                    Swal.fire({
+                        text:"Product already selected.",
+                        icon: "warning",
+                    });
+                    $("#transfer_to").val(null).trigger('change');
                 }
             });
         });
