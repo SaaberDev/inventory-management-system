@@ -22,6 +22,7 @@ class LoginAsController extends Controller
      *
      * @param Request $request
      * @return JsonResponse
+     * @throws \Exception
      */
     public function __invoke(Request $request)
     {
@@ -32,15 +33,14 @@ class LoginAsController extends Controller
 
         // PHP 8 Only
         match ($login_as) {
-            'super_admin' => $find_user(SUPER_ADMIN),
+            'super-admin' => $find_user(SUPER_ADMIN),
             'admin' => $find_user(ADMIN),
-            'manager' => $find_user(MANAGER),
-            'default' => response()->json('Could not find user')
+            'manager' => $find_user(MANAGER)
         };
 
         // uncomment this if your PHP version is less than 8
         /*switch ($login_as) {
-            case 'super_admin':
+            case 'super-admin':
                 $find_user(SUPER_ADMIN);
                 break;
 
@@ -53,7 +53,7 @@ class LoginAsController extends Controller
                 break;
 
             default:
-                return response()->json('Could not find user');
+                throw new \Exception('Could not match the key.');
         }*/
 
         Auth::login($this->user);
