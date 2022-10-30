@@ -85,13 +85,9 @@
          */
         public function create()
         {
-            $warehouses = Warehouse::orderBy('position')->get();
-            $released_from = $warehouses->sortBy(function ($item) {
-                return $item['id'] == 2;
-            })->except([Warehouse::PURCHASE, Warehouse::FINISHED])->pluck('name', 'id');
-            $product_types = ProductType::pluck('name', 'id')->except(ProductType::RAW);
-
-            return view('admin.pages.release-product.create', compact('released_from', 'product_types'));
+            $products = Product::orderByDesc('id')->where('product_type_id', '!=', ProductType::FIN)->select(['id', 'name', 'code'])->get();
+            $finished_products = Product::where('product_type_id', '=', ProductType::FIN)->select(['id', 'name', 'code'])->get();
+            return view('admin.pages.release-product.create', compact('products', 'finished_products'));
         }
 
         /**
@@ -316,53 +312,48 @@
             }
         }
 
-
-        /**
-         * @param Request $request
-         * @return JsonResponse
-         */
-        public function getProductsByWarehouse(Request $request)
-        {
-            $products_by_warehouse = Warehouse::findOrFail($request->get('id'));
-//            $released_products = ReleasedProduct::where('from_warehouse_id', '=', $request->get('id'))->distinct()->pluck('product_id')->toArray();
-
-            $stocks = $products_by_warehouse->stocks()
-                ->where('qty', '!=', 0)
-                ->whereIn('product_type_id', [ProductType::RAW, ProductType::REL])
-                // if released product warehouse_id is equals to released_from do not display
-//                ->whereNotIn('product_id', $released_products)
-                ->get();
-
-            $data = [];
-            foreach ($stocks as $stock) {
-                $products['id'] = $stock->id;
-                $products['code'] = $stock->code;
-                $products['name'] = $stock->name;
-
-                $data[] = $products;
-            }
-            return \response()->json($data, '200');
-        }
-
-
         /**
          * @param Request $request
          * @return JsonResponse
          */
         public function getProducts(Request $request)
         {
-            if ($request->get('query') == ProductType::REL) {
-                $released_products = Product::where('product_type_id', '=', ProductType::REL)->select(['id', 'name', 'code'])->get();
-                return \response()->json($released_products);
-            } elseif ($request->get('query') == ProductType::FIN) {
-                $released_products = Product::where('product_type_id', '=', ProductType::FIN)->select(['id', 'name', 'code'])->get();
-                return \response()->json($released_products);
-            } else {
-                return response()->json([
-                    'alert_type' => 'warning',
-                    'message' => 'Oops, Something went wrong!',
-                ], '400');
+            if ($request->ajax()) {
+                $term = $request->get('term');
+                $products = Product::with(['productStock:product_id,qty'])
+                    ->where('product_type_id', '!=', ProductType::FIN)
+                    ->select(['id', 'name as text', 'code'])
+                    ->when($term, function ($query) use ($term) {
+                        $query->where('name', 'like', "%{$term}%");
+                    })
+                    ->whereHas('productStock', function ($builder) {
+                        $builder->where('qty', '!=', 0);
+                    })
+                    ->orderByDesc('id')
+                    ->paginate(10)
+                ;
+
+                $morePages = true;
+                if (empty($products->nextPageUrl())){
+                    $morePages = false;
+                }
+
+                $list = $products->items();
+                array_map(function ($items) {
+                    return $items['text'] = '> ' . $items['text'] . ' - ' . $items['code'];
+                }, $list);
+
+                $results = [
+                    "results" => $list,
+                    "pagination" => [
+                        "more" => $morePages
+                    ]
+                ];
+
+                return response()->json($results);
             }
+
+            return response()->json('Ajax Failed');
         }
 
 
@@ -373,7 +364,7 @@
         public function getStock(Request $request)
         {
             $product = Product::findOrFail($request->get('product_id'));
-            $stock_by_warehouse = $product->stocks()->where('warehouse_id', '=', $request->get('warehouse_id'))->get();
+            $stock_by_warehouse = $product->stocks()->get();
             $qty = [];
             foreach ($stock_by_warehouse as $stock) {
                 $qty = $stock->pivot->qty;

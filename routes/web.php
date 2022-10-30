@@ -119,7 +119,7 @@
                         Route::get('/edit/{id}', [PurchaseController::class, 'edit'])->name('edit')->middleware(['permission:purchase.edit']);
                         Route::patch('/update/{id}', [PurchaseController::class, 'update'])->name('update')->middleware(['permission:purchase.update']);
                         Route::delete('/delete/{id}', [PurchaseController::class, 'destroy'])->name('delete')->middleware(['permission:purchase.delete']);
-//                    report
+                        // report
                         Route::get('/report', [PurchaseController::class, 'report'])->name('report')->middleware(['permission:dashboard.report.purchase']);
                         Route::get('/report-getdata', [PurchaseController::class, 'reportData'])->name('reportData');
                         // Dropzone Media Ajax

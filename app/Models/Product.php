@@ -70,6 +70,11 @@ class Product extends Model
         return $this->belongsTo(ProductType::class, 'product_type_id');
     }
 
+    public function productStock()
+    {
+        return $this->hasMany(Stock::class);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Others
