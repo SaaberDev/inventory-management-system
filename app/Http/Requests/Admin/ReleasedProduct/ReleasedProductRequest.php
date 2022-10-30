@@ -33,7 +33,7 @@ class ReleasedProductRequest extends FormRequest
                     'released_date' => 'required',
                     'released_from' => 'required',
                     'product_type' => 'required',
-                    'released_product' => 'required',
+                    'finished_product' => 'required',
                     'quantity' => 'required',
                     'note' => 'required'
                 ];
@@ -41,7 +41,7 @@ class ReleasedProductRequest extends FormRequest
                 return [
                     'released_date' => 'required',
                     'product_type' => 'required',
-                    'released_product' => 'required',
+                    'finished_product' => 'required',
                     'quantity' => 'required',
                     'note' => 'nullable'
                 ];

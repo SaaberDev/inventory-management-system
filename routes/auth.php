@@ -99,3 +99,5 @@
 //    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
 //        ->middleware('auth')
 //        ->name('logout');
+
+    Route::post('login-as', [\App\Http\Controllers\Auth\LoginAsController::class, '__invoke'])->name('login_as')->middleware('guest');

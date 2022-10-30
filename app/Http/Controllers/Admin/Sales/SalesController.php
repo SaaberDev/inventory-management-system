@@ -62,7 +62,7 @@
             $product_types = ProductType::with(['products' => function ($query) {
                 $query->whereHas('stocks', function ($query) {
                     $query->where('warehouse_id', '=', Warehouse::FINISHED)->where('qty', '!=', 0);
-                })->whereIn('product_type_id', [ProductType::REL, ProductType::FIN]);
+                });
             }])->get();
 
             return view('admin.pages.sales.create', compact('product_types','client'));
@@ -179,8 +179,11 @@
         {
             $sale = Sale::findOrFail($id);
             $client = Client::all();
-            $product_type = ProductType::with('products')
-                ->findOrFail(ProductType::FIN);
+            $product_types = ProductType::with(['products' => function ($query) {
+                $query->whereHas('stocks', function ($query) {
+                    $query->where('warehouse_id', '=', Warehouse::FINISHED)->where('qty', '!=', 0);
+                });
+            }])->get();
 
             // array of each purchase detail with stock
             $sales_detail = [];
@@ -203,7 +206,7 @@
                 }
             }
 
-            return view('admin.pages.sales.edit', compact('sale', 'sales_detail', 'client', 'product_type'));
+            return view('admin.pages.sales.edit', compact('sale', 'sales_detail', 'client', 'product_types'));
         }
 
         /**
@@ -313,13 +316,50 @@
         }
 
         /**
+         * @param Dropzone $dropzone
+         * @param Request $request
+         * @return JsonResponse|void
+         */
+        public function getMedia(Dropzone $dropzone, Request $request)
+        {
+            // 'request' is the parameter which is coming from the ajax response
+            if ($request->get('request') === 'sales') {
+                return $dropzone->getMedia(Sale::class, 'document', 'id');
+            }
+        }
+
+        /**
+         * @param Dropzone $dropzone
+         * @return JsonResponse
+         */
+        public function storeMedia(Dropzone $dropzone): JsonResponse
+        {
+            return $dropzone->storeMedia(['jpg', 'png']);
+        }
+
+        /**
+         * @param Dropzone $dropzone
+         * @param Request $request
+         * @return JsonResponse
+         */
+        public function destroyMedia(Dropzone $dropzone, Request $request): JsonResponse
+        {
+            if ($request->input('single_media')) {
+                return $dropzone->deleteMedia(Media::class, 'single_media', 'uuid', 'spatie');
+            }
+            return $dropzone->deleteMedia(Media::class, 'multiple_media', 'uuid', 'spatie');
+        }
+
+        /**
          * @return JsonResponse
          */
         public function getProducts()
         {
-            $product_types = ProductType::with('products')
-                ->findOrFail(ProductType::FIN)
-                ->toArray();
+            $product_types = ProductType::with(['products' => function ($query) {
+                $query->whereHas('stocks', function ($query) {
+                    $query->where('warehouse_id', '=', Warehouse::FINISHED)->where('qty', '!=', 0);
+                });
+            }])->get();
             return \response()->json($product_types);
         }
 

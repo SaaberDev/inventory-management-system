@@ -386,7 +386,18 @@
                     </div>
                 </div>
 
-
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <div class="needsclick dropzone" id="multiple-media-dropzone">
+                                <div class="dz-message" data-dz-message>
+                                    <span>Drop files here or click to upload.</span> <br>
+                                    <span style="color: #dc3545;font-size: 13px;">Maximum allowed file size 2MB. Allowed file types are jpeg, png.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-sm-12">
@@ -408,8 +419,8 @@
     @include('plugins.dropzone.create.multiple', [
         'dropzone' => Str::camel('multiple-media-dropzone'),
         'fileInputName' => 'multiple_media',
-        'store' => '',
-        'delete' => '',
+        'store' => route('admin.sales.self.storeMedia'),
+        'delete' => route('admin.sales.self.deleteMedia'),
         'maxFilesize' => 2,
         'maxFiles' => 10,
         'acceptedFiles' => 'image/jpeg, image/png',
@@ -446,17 +457,6 @@
                 .fail(function(){
                     console.log('Ajax Failed')
                 });
-        });
-        $(document).ready(function(){
-            $("#qunatities-1").blur(function(){
-                var quantity = $('#qunatities-1').val();
-                var stock = $('#stock-1').val();
-                if( stock < quantity){
-                    alert("Quantity should be less or Equal than Stock.");
-                    $('#qunatities-1').val('');
-                }
-
-            });
         });
     </script>
 @endpush

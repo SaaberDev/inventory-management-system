@@ -92,6 +92,7 @@
                                     name="transfer_to"
                                     style="width: 100%;"
                                     data-placeholder="Choose a Warehouse"
+                                    disabled
                                     required
                             >
                                 <option></option>
@@ -200,9 +201,25 @@
     <script>
         // get products for selected purchase
         $(document).ready(function(){
-            $(".transfer-from").on("change", function () {
-                let transfer_from =  $("#transfer_from option:selected").val();
+            let transfer_from;
+            let transfer_to;
+
+            $('#transfer_to, #transfer_from').on('change', function () {
+                transfer_to =  $("#transfer_to option:selected").val();
+                transfer_from =  $("#transfer_from option:selected").val();
+                if (transfer_to === transfer_from) {
+                    Swal.fire({
+                        text:"Cannot transfer in same warehouse.",
+                        icon: "warning",
+                    });
+                    $(this).val(null).trigger('change');
+                }
+            });
+
+            $("#transfer_from").on("change", function () {
                 if (transfer_from) {
+                    $('#transfer_to').prop('disabled', false);
+
                     $.ajax({
                         type: "GET",
                         dataType : 'json',
@@ -228,6 +245,17 @@
                     $("#products-1").empty();
                 }
             });
+
+            // $('#transfer_to').on('change', function () {
+            //     let transfer_to =  $("#transfer_to option:selected").val();
+            //     if (transfer_to === transfer_from) {
+            //         Swal.fire({
+            //             text:"Transfer From and Transfer To can't be same",
+            //             icon: "warning",
+            //         });
+            //         $(this).val(null).trigger('change');
+            //     }
+            // });
         });
     </script>
 

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use Schema;
@@ -40,5 +41,9 @@ class AppServiceProvider extends ServiceProvider
                 return Password::min(4);
             });
         }
+
+        Blade::if('_demo', function () {
+            return config('app.demo') === true;
+        });
     }
 }

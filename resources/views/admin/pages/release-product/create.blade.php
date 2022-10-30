@@ -36,7 +36,7 @@
                 @csrf @method('POST')
 
                 <div class="row">
-                    <div class="col-sm-5">
+                    <div class="col-sm-12">
                         <div class="form-group">
                             <label for="released_date">Released Date<span class="text-danger"> *</span></label>
                             <input type="text"
@@ -55,33 +55,6 @@
                             @endif
                         </div>
                     </div>
-
-                    <div class="col-sm-7">
-                        <div class="form-group">
-                            <label for="released_from" class="col-form-label">Released From<span class="text-danger"> *</span></label>
-                            <select class="form-control released-from select2bs4 {{ $errors->has('released_from') ? ' is-invalid' : '' }}"
-                                    id="released_from"
-                                    name="released_from"
-                                    style="width: 100%;"
-                                    data-placeholder="Choose a Warehouse"
-                                    required
-                            >
-                                <option></option>
-                                @foreach($released_from as $id => $warehouse)
-                                    <option value="{{ $id }}"
-                                        {{ $id == old('released_from') ? 'selected' : '' }}
-                                    >
-                                        {{ $warehouse }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @if($errors->has('released_from'))
-                                <span class="invalid-feedback">
-                                <strong>{{ $errors->first('released_from') }}</strong>
-                            </span>
-                            @endif
-                        </div>
-                    </div>
                 </div>
 
                 <div class="row">
@@ -95,6 +68,13 @@
                                 required
                         >
                             <option></option>
+{{--                            @foreach($products as $product)--}}
+{{--                                <option value="{{ $product->id }}"--}}
+{{--                                    {{ $product->id == old('products') ? 'selected' : '' }}--}}
+{{--                                >--}}
+{{--                                    {{ '> ' . $product->name . ' - ' . $product->code }}--}}
+{{--                                </option>--}}
+{{--                            @endforeach--}}
                         </select>
                     </div>
 
@@ -125,59 +105,39 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <label for="product_type" class="col-form-label">Product Type<span class="text-danger"> *</span></label>
-                            <select class="form-control product-type select2bs4 {{ $errors->has('product_type') ? ' is-invalid' : '' }}"
-                                    id="product_type"
-                                    name="product_type"
-                                    style="width: 100%;"
-                                    data-placeholder="Choose a Product Type"
-                                    required
-                            >
-                                <option></option>
-                                @foreach($product_types as $id => $product_type)
-                                    <option value="{{ $id }}"
-                                        {{ $id == old('product_type') ? 'selected' : '' }}
-                                    >
-                                        {{ $product_type }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @if($errors->has('product_type'))
-                                <span class="invalid-feedback">
-                                    <strong>{{ $errors->first('product_type') }}</strong>
-                                </span>
-                            @endif
-                        </div>
-                    </div>
-
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label for="released_product" class="col-form-label">Released Product<span class="text-danger"> *</span></label>
-                            <select class="form-control released-product select2bs4 {{ $errors->has('released_product') ? ' is-invalid' : '' }}"
-                                    id="released_product"
-                                    name="released_product"
+                            <label for="finished_product" class="col-form-label">Released Product<span class="text-danger"> *</span></label>
+                            <select class="form-control finished-product select2bs4 {{ $errors->has('finished_product') ? ' is-invalid' : '' }}"
+                                    id="finished_product"
+                                    name="finished_product"
                                     style="width: 100%;"
                                     data-placeholder="Choose a Product"
                                     required
                             >
-                                <option value=""></option>
+                                <option></option>
+                                @foreach($finished_products as $finished_product)
+                                    <option value="{{ $finished_product->id }}"
+                                        {{ $finished_product->id == old('finished_product') ? 'selected' : '' }}
+                                    >
+                                        {{ '> ' . $finished_product->name . ' - ' . $finished_product->code }}
+                                    </option>
+                                @endforeach
                             </select>
-                            @if($errors->has('released_product'))
+                            @if($errors->has('finished_product'))
                                 <span class="invalid-feedback">
-                                    <strong>{{ $errors->first('released_product') }}</strong>
+                                    <strong>{{ $errors->first('finished_product') }}</strong>
                                 </span>
                             @endif
                         </div>
                     </div>
 
-                    <div class="col-sm-2 form-group">
-                        <label for="released_product_stock" class="col-form-label">Stock</label>
-                        <input type="text" class="form-control" id="released_product_stock" name="released_product_stock" value="" disabled>
+                    <div class="col-sm-3 form-group">
+                        <label for="finished_product_stock" class="col-form-label">Stock</label>
+                        <input type="text" class="form-control" id="finished_product_stock" value="" disabled>
                     </div>
 
-                    <div class="col-sm-3 form-group">
+                    <div class="col-sm-5 form-group">
                         <label for="quantity" class="col-form-label">Quantity<span class="text-danger"> *</span></label>
                         <input type="number"
                                min="0"
@@ -246,52 +206,34 @@
     </script>
 
     <script>
-        // get products for selected purchase
-        $(document).ready(function(){
-            $(".released-from").on("change", function () {
-                let released_from =  $("#released_from option:selected").val();
-                if (released_from) {
-                    $.ajax({
-                        type: "GET",
-                        dataType : 'json',
-                        url: '/api/dashboard/released-products/get-products-by-warehouse',
-                        data: {
-                            id: released_from
-                        }
-                    })
-                        .done(function(data){
-                            if (data) {
-                                $("#products-1").empty();
-                                $.each(data, function(key,value){
-                                    $("#products-1").append('<option></option><option value="'+value.id+'">'+ '>' + ' ' +value.code+ ' ' + '-' + ' ' +value.name+'</option>');
-                                });
-                            } else {
-                                $("#products-1").empty();
-                            }
-                        })
-                        .fail(function(){
-                            console.log('Ajax Failed')
-                        });
-                } else {
-                    $("#products-1").empty();
-                }
-            });
-        });
-    </script>
+        (function() {
+        $(".product-select").select2({
+            theme: 'bootstrap4',
+            ajax: {
+                url: '/api/dashboard/released-products',
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        'term': params.term || '',
+                        'page': params.page || 1
+                    };
+                },
+                'cache': true
+            },
+        })
+        })();
 
-    <script>
         // get stock by product
         $(".product-select").on("change", function () {
             let product_id =  $("#products-1").find(":selected").val();
-            let warehouse_id =  $("#released_from").find(":selected").val();
 
             $.ajax({
                 type: "GET",
                 dataType : 'json',
-                url: '/api/dashboard/transfer/get-stock',
+                url: '/api/dashboard/released-products/get-stock',
                 data: {
-                    product_id: product_id,
-                    warehouse_id: warehouse_id
+                    product_id: product_id
                 }
             })
                 .done(function(data){
@@ -304,118 +246,25 @@
         });
     </script>
 
-
-    <script>
-        // get products by type
-        $(document).ready(function(){
-            $(".product-type").on("change", function () {
-                let product_type =  $("#product_type option:selected").val();
-                if (product_type) {
-                    $.ajax({
-                        type: "GET",
-                        dataType : 'json',
-                        url: '/api/dashboard/released-products',
-                        data: {
-                            query: product_type,
-                        }
-                    })
-                        .done(function(data){
-                            if (data) {
-                                $("#released_product").empty();
-                                $.each(data, function(key,value){
-                                    $("#released_product").append('<option></option><option class="rel-option" value="'+value.id+'">'+ '>' + ' ' +value.code+ ' ' + '-' + ' ' +value.name+'</option>');
-                                });
-                            } else {
-                                $("#released_product").empty();
-                            }
-                        })
-                        .fail(function(data){
-                            const WarningToast = Swal.mixin({
-                                toast: true,
-                                // position: 'bottom-left',
-                                position: 'top-right',
-                                showConfirmButton: false,
-                                showCloseButton: true,
-                                timer: 1500,
-                                showClass: {
-                                    popup: 'swal2-show',
-                                    backdrop: 'swal2-backdrop-show',
-                                    icon: 'swal2-icon-show',
-                                },
-                                hideClass: {
-                                    popup: 'swal2-hide',
-                                    backdrop: 'swal2-backdrop-hide',
-                                    icon: 'swal2-icon-hide'
-                                },
-                                customClass: 'swal-toast-height',
-                                // background: '#E9EFE8'
-                                background: '#ffffff'
-                            })
-                            WarningToast.fire({
-                                icon: data.responseJSON.alert_type,
-                                title: data.responseJSON.message
-                            })
-                        });
-                } else {
-                    $("#released_product").empty();
-                }
-            });
-        });
-    </script>
-
     <script>
         // get stock by product
-        $(".released-product").on("change", function () {
-            let product_id =  $("#released_product").find(":selected").val();
-            let warehouse_id =  $("#released_from").find(":selected").val();
-
-            if (warehouse_id) {
-                $.ajax({
-                    type: "GET",
-                    dataType : 'json',
-                    url: '/api/dashboard/released-products/get-stock',
-                    data: {
-                        product_id: product_id,
-                        warehouse_id: warehouse_id
-                    }
+        $("#finished_product").on("change", function () {
+            let product_id =  $(this).find(":selected").val();
+            $.ajax({
+                type: "GET",
+                dataType : 'json',
+                url: '/api/dashboard/released-products/get-stock',
+                data: {
+                    product_id: product_id
+                }
+            })
+                .done(function(data){
+                    // console.log(data)
+                    $("#finished_product_stock").val(data.stock + ' ' + data.shortcut)
                 })
-                    .done(function(data){
-                        console.log(data)
-                        $("#released_product_stock").val(data.stock + ' ' + data.shortcut)
-                    })
-                    .fail(function(){
-                        console.log('Ajax Failed')
-                    });
-            } else {
-                const WarningToast = Swal.mixin({
-                    toast: true,
-                    // position: 'bottom-left',
-                    position: 'top-right',
-                    showConfirmButton: false,
-                    showCloseButton: true,
-                    timer: 1500,
-                    showClass: {
-                        popup: 'swal2-show',
-                        backdrop: 'swal2-backdrop-show',
-                        icon: 'swal2-icon-show',
-                    },
-                    hideClass: {
-                        popup: 'swal2-hide',
-                        backdrop: 'swal2-backdrop-hide',
-                        icon: 'swal2-icon-hide'
-                    },
-                    customClass: 'swal-toast-height',
-                    // background: '#E9EFE8'
-                    background: '#ffffff'
-                })
-                WarningToast.fire({
-                    icon: 'warning',
-                    title: 'No Warehouse Selected'
-                })
-
-                $("#released_product").empty()
-                $('#product_type').val(null).trigger('change');
-            }
+                .fail(function(){
+                    console.log('Ajax Failed')
+                });
         });
     </script>
 @endpush

@@ -14,9 +14,14 @@
             <p class="text-sm text-center text-danger"><b>{{ session('message') }} <br> Please signin again.</b></p>
         @endif
         <p class="login-box-msg"><b>Sign in</b></p>
-        @livewire('auth.admin.login-component')
+
+            @livewire('auth.admin.login-component')
+
+            @_demo
+            {{-- Login As Component --}}
+            <x-demo.login-as-demo-layout>
+                <x-demo.buttons.login-as :roles="['super-admin', 'admin', 'manager']"/>
+            </x-demo.login-as-demo-layout>
+            @end_demo
     </div>
 @endsection
-
-@push('scripts')
-@endpush
